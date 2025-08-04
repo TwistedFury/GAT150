@@ -28,6 +28,10 @@ int main(int argc, char* argv[]) {
     SDL_Event e;
     bool quit = false;
 
+    // create texture, using shared_ptr so texture can be shared
+    std::shared_ptr<swaws::Texture> texture = std::make_shared<swaws::Texture>();
+    texture->Load("Placeholder.jpg", swaws::GetEngine().GetRenderer());
+
     // MAIN LOOP
     while (!quit) {
         while (SDL_PollEvent(&e)) {
@@ -41,6 +45,8 @@ int main(int argc, char* argv[]) {
 
         swaws::GetEngine().GetRenderer().SetColor(0.0f, 0.0f, 0.0f);
         swaws::GetEngine().GetRenderer().Clear(); // Clear the renderer
+
+        swaws::GetEngine().GetRenderer().DrawTexture(texture.get(), 30, 30);
 
         // Draw Actors
         game->Draw(swaws::GetEngine().GetRenderer());

@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_image/SDL_image.h>
 #include <iostream>
 #include <string>
 
@@ -23,9 +24,13 @@ namespace swaws {
 		void DrawLine(float x1, float y1, float x2, float y2);
 		void DrawPoint(float x1, float y1);
 
+		void DrawTexture(class Texture* texture, float x, float y, float angle = 0.0f);
+
 		int GetWindowWidth() const { return windowWidth; }
 		int GetWindowHeight() const { return windowHeight; }
+
 	private:
+		friend class Texture;
 		friend class Text; // Allows Text class to access private data
 		SDL_Window* m_window = nullptr;
 		SDL_Renderer* m_renderer = nullptr;

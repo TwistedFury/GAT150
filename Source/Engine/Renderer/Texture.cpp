@@ -1,0 +1,43 @@
+#include "Texture.h"
+#include "Renderer.h"
+
+namespace swaws
+{
+    Texture::~Texture()
+    {
+        // if texture exists, destroy texture
+        if (m_texture != nullptr) SDL_DestroyTexture(m_texture);
+    }
+
+    bool Texture::Load(const std::string& filename, Renderer& renderer)
+    {
+        // load image onto surface
+        SDL_Surface* surface = IMG_Load(filename.c_str());
+        if (!surface)
+        {
+            std::cerr << "Could not load image: " << filename << std::endl;
+            return false;
+        }
+
+        // create texture from surface, texture is a friend class of renderer
+        m_texture = SDL_CreateTextureFromSurface(renderer.m_renderer, surface);
+        // once texture is created, surface can be freed up
+        SDL_DestroySurface(surface);
+        if (!m_texture)
+        {
+            std::cerr << "Could not create texture: " << filename << std::endl;
+            return false;
+        }
+
+        return true;
+    }
+
+    vec2 Texture::GetSize()
+    {
+        // https://wiki.libsdl.org/SDL3/SDL_GetTextureSize
+        float w = 0.0f; 
+        float h = 0.0f;
+        SDL_GetTextureSize(m_texture, &w, &h);
+        return vec2{ w, h };
+    }
+}

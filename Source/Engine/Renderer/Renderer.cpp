@@ -1,5 +1,7 @@
 #pragma once
 #include "Renderer.h"
+#include "Texture.h"
+#include "../Math/Vector2.h"
 
 namespace swaws {
     /// <summary>
@@ -127,5 +129,19 @@ namespace swaws {
     void Renderer::DrawPoint(float x1, float y1)
     {
         SDL_RenderPoint(m_renderer, x1, y1);
+    }
+
+    void Renderer::DrawTexture(Texture* texture, float x, float y, float angle)
+    {
+        vec2 size = texture->GetSize();
+
+        SDL_FRect destRect;
+        destRect.x = x;
+        destRect.y = y;
+        destRect.w = size.x;
+        destRect.h = size.y;
+
+        // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
+        SDL_RenderTexture(m_renderer, texture->m_texture, NULL, &destRect);
     }
 }
