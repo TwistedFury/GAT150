@@ -3,9 +3,9 @@
 
 namespace swaws {
 	namespace math {
-		constexpr float pi = 3.14159265f;
-		constexpr float twoPi = 2 * pi;
-		constexpr float halfPi = pi / 2;
+		inline constexpr float pi = 3.14159265f;
+		inline constexpr float twoPi = 2 * pi;
+		inline constexpr float halfPi = pi / 2;
 
 		/// <summary>
 		/// Converts radians to degrees.

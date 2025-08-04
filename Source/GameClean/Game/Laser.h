@@ -16,7 +16,7 @@ public:
 	Laser(const swaws::Transform& transform, std::shared_ptr<swaws::Model> model) :
 		swaws::Actor{ transform, model } 
 	{
-		length = swaws::GetEngine().GetRenderer().GetWindowWidth();
+		length = (float)swaws::GetEngine().GetRenderer().GetWindowWidth();
 	}
 
 	void Update(float dt) override;
