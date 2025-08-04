@@ -131,7 +131,7 @@ namespace swaws {
         SDL_RenderPoint(m_renderer, x1, y1);
     }
 
-    void Renderer::DrawTexture(Texture* texture, float x, float y, float angle)
+    void Renderer::DrawTexture(Texture* texture, float x, float y)
     {
         vec2 size = texture->GetSize();
 
