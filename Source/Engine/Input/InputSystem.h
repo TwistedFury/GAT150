@@ -3,7 +3,7 @@
 #include <vector>
 #include <array>
 #include <cassert>
-#include "../Math/Vector2.h"
+#include "Math/Vector2.h"
 
 namespace swaws {
 	class InputSystem

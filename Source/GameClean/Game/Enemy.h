@@ -11,8 +11,8 @@ public:
 public:
 	Enemy() = default;
 
-	Enemy(const swaws::Transform& transform, std::shared_ptr<swaws::Model> model) :
-		swaws::Actor{ transform, model } { }
+	Enemy(const swaws::Transform& transform, swaws::res_t<swaws::Texture> texture) :
+		swaws::Actor{ transform, texture } { }
 
 	void Update(float dt) override;
 

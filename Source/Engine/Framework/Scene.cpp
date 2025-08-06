@@ -2,8 +2,8 @@
 
 #include "Scene.h"
 #include "Actor.h"
-#include "../Engine.h"
-#include "../Renderer/Renderer.h"
+#include "Engine.h"
+#include "Renderer/Renderer.h"
 
 namespace swaws
 {

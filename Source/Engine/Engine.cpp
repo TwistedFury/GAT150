@@ -1,11 +1,6 @@
 #pragma once
 
 #include "Engine.h"
-#include "Core/Time.h"
-#include "Renderer/Renderer.h"
-#include "Input/InputSystem.h"
-#include "Audio/AudioSystem.h"
-#include "Renderer/ParticleSystem.h"
 
 namespace swaws
 {
@@ -63,15 +58,5 @@ namespace swaws
 	void Engine::Draw()
 	{
 		//
-	}
-
-	/// <summary>
-	/// Returns a reference to a static Engine instance.
-	/// </summary>
-	/// <returns>A reference to the static Engine object.</returns>
-	Engine& GetEngine()
-	{
-		static Engine engine;
-		return engine;
 	}
 }

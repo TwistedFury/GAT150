@@ -1,18 +1,17 @@
 #pragma once
 #include <memory>
+#include "Core/Time.h"
+#include "Renderer/Renderer.h"
+#include "Input/InputSystem.h"
+#include "Audio/AudioSystem.h"
+#include "Renderer/ParticleSystem.h"
+#include "Core/Singleton.h"
 
 namespace swaws
 {
-	class Renderer; // Forward declaration allowed if not used **here**
-	class AudioSystem;
-	class InputSystem;
-	class Time;
-	class ParticleSystem;
-
-	class Engine
+	class Engine : public Singleton<Engine>
 	{
 	public:
-		Engine() = default;
 
 		bool Initialize();
 		void Update();
@@ -33,7 +32,11 @@ namespace swaws
 		std::unique_ptr<AudioSystem> audio;
 		std::unique_ptr<InputSystem> input;
 		std::unique_ptr<ParticleSystem> particle;
+
+	private:
+		friend class Singleton<Engine>;
+		Engine() = default;
 	};
 
-	Engine& GetEngine();
+	inline Engine& GetEngine() { return Engine::Instance(); }
 }

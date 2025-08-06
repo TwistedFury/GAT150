@@ -1,6 +1,6 @@
 #pragma once
 #include "Actor.h"
-#include "../Renderer/Model.h"
+#include "Renderer/Renderer.h"
 
 namespace swaws
 {
@@ -30,15 +30,15 @@ namespace swaws
 	void Actor::Draw(Renderer& renderer)
 	{
 		if (destroyed) return;
-		m_model->Draw(renderer, transform);
+		renderer.DrawTexture(m_texture.get(), transform.position.x, transform.position.y, transform.rotation, transform.scale);
 	}
 
 	/// <summary>
-	/// Returns the effective radius of the actor, based on its model and scale.
+	/// Returns the effective radius of the actor based on its texture size, scale, and a scaling factor.
 	/// </summary>
-	/// <returns>The actor's radius as a float. Returns 0 if the model is not set.</returns>
+	/// <returns>The computed radius of the actor. Returns 0 if the actor has no texture.</returns>
 	float Actor::GetRadius()
 	{
-		return (m_model) ? m_model->GetRadius() * transform.scale * 0.9f : 0;
+		return (m_texture) ? (m_texture->GetSize().Length() * 0.5f) * transform.scale * 0.9f : 0;
 	}
 }

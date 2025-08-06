@@ -1,6 +1,6 @@
 #pragma once
-#include "../Math/Vector2.h"
-#include "../Math/Math.h"
+#include "Math/Vector2.h"
+#include "Math/Math.h"
 #include <random>
 
 namespace swaws::random {

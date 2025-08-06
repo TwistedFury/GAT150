@@ -19,8 +19,8 @@ public:
 public:
 	Player() = default;
 	
-	Player(const swaws::Transform& transform, std::shared_ptr<swaws::Model> model) :
-		swaws::Actor{ transform, model } { this->damping = 0.2f; }
+	Player(const swaws::Transform& transform, swaws::res_t<swaws::Texture> texture) :
+		swaws::Actor{ transform, texture } { this->damping = 0.2f; }
 
 	void Update(float dt) override;
 

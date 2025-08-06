@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../Math/Transform.h"
-#include "../Math/Vector3.h"
-#include "../Renderer/Model.h"
+#include "Math/Transform.h"
+#include "Math/Vector3.h"
+#include "Renderer/Model.h"
+#include "Renderer/Texture.h"
 #include <memory>
 #include <string>
 
@@ -29,8 +30,8 @@ namespace swaws
 		class Scene* scene{ nullptr };
 	public:
 		Actor() = default;
-		Actor(const Transform& transform, std::shared_ptr<class Model> model) :
-		transform{ transform }, m_model{ model } 
+		Actor(const Transform& transform, std::shared_ptr<class Texture> texture) :
+		transform{ transform }, m_texture{ texture } 
 		{ }
 
 		virtual void Update(float dt);
@@ -46,10 +47,12 @@ namespace swaws
 		virtual void OnCollision(Actor* other) = 0;
 
 		// colors
-		void SetColor(vec3 color) { m_model->SetColor(color); }
-		vec3 GetColor() const { return m_model->GetColor(); }
+		//void SetColor(vec3 color) { m_model->SetColor(color); }
+		//vec3 GetColor() const { return m_model->GetColor(); }
 
 	protected:
-		std::shared_ptr<Model> m_model;
+		res_t<Texture> m_texture;
+
+		//std::shared_ptr<Model> m_model;
 	};
 }

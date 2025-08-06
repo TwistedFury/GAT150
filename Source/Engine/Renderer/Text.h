@@ -1,7 +1,7 @@
 #pragma once
 #include "Font.h"
 #include <memory>
-#include "../Math/Vector3.h"
+#include "Math/Vector3.h"
 
 struct SDL_Texture;
 namespace swaws

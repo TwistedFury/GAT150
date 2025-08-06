@@ -4,7 +4,7 @@
 #include <string>
 #include <list>
 #include <memory>
-#include "../Core/StringHelper.h"
+#include "Core/StringHelper.h"
 
 namespace swaws
 {

@@ -25,6 +25,7 @@ namespace swaws {
 		void DrawPoint(float x1, float y1);
 
 		void DrawTexture(class Texture* texture, float x, float y);
+		void DrawTexture(class Texture* texture, float x, float y, float rot, float scale = 1);
 
 		int GetWindowWidth() const { return windowWidth; }
 		int GetWindowHeight() const { return windowHeight; }

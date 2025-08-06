@@ -13,16 +13,16 @@ bool SpaceGame::Initialize()
 {
     scene = std::make_unique<swaws::Scene>(this);
 
-    m_titleFont = std::make_shared<swaws::Font>();
-    m_titleFont->Load("8bitOperatorPlus8-Regular.ttf", 64);
+    //m_titleFont = std::make_shared<swaws::Font>();
+    //m_titleFont->Load("8bitOperatorPlus8-Regular.ttf", 64);
 
-    m_uiFont = std::make_shared<swaws::Font>();
-    m_uiFont->Load("8bitOperatorPlus8-Regular.ttf", 48);
+    //m_uiFont = std::make_shared<swaws::Font>();
+    //m_uiFont->Load("8bitOperatorPlus8-Regular.ttf", 48);
 
-    m_titleText = std::make_unique<swaws::Text>(m_titleFont);
-    m_scoreText = std::make_unique<swaws::Text>(m_uiFont);
-    m_livesText = std::make_unique<swaws::Text>(m_uiFont);
-    m_pressSpace = std::make_unique<swaws::Text>(m_titleFont);
+    m_titleText = std::make_unique<swaws::Text>(swaws::Resources().GetWithID<swaws::Font>("titleF", "8bitOperatorPlus8-Regular.ttf", 64));
+    m_scoreText = std::make_unique<swaws::Text>(swaws::Resources().GetWithID<swaws::Font>("uiF", "8bitOperatorPlus8-Regular.ttf", 48));
+    m_livesText = std::make_unique<swaws::Text>(swaws::Resources().GetWithID<swaws::Font>("uiF", "8bitOperatorPlus8-Regular.ttf", 48));
+    m_pressSpace = std::make_unique<swaws::Text>(swaws::Resources().GetWithID<swaws::Font>("titleF", "8bitOperatorPlus8-Regular.ttf", 64));
 
     // Initialize Laser Points
     GameData::laserPoints = std::vector<swaws::vec2>{
@@ -53,9 +53,9 @@ void SpaceGame::Update(float dt)
     case SpaceGame::GameState::StartRound:
     {
         scene->RemoveAllActors();
-        std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
+        //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
         swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 5);
-        std::unique_ptr<Player> player = std::make_unique<Player>(transform, model);
+        std::unique_ptr<Player> player = std::make_unique<Player>(transform, swaws::Resources().Get<swaws::Texture>("spaceship-sprites/blue_01.png", swaws::GetEngine().GetRenderer()));
         player->damping = 0.5f; // Set Damping for player
         player->speed = 1500; // Set player Speed
         player->rotationRate = 180; // Set Rotation Rate
@@ -134,22 +134,22 @@ void SpaceGame::Update(float dt)
             int curWeapon = static_cast<int>(player->CurWeapon());
             player->SelectWeapon(static_cast<Player::Weapon>((curWeapon + 1) % weaponAmount));
 
-            // With more weapons, this'll be longer
-            switch (curWeapon)
-            {
-            case 0: // ROCKET -> LASER
-                scene->GetActorByName("rocketIc")->SetColor({ 1.0f, 0.0f, 0.0f });
-                scene->GetActorByName("laserIc")->SetColor({ 0.0f, 1.0f, 0.0f });
-                player->fireTime = 5;
-                break;
-            case 1: // LASER -> ROCKET
-                scene->GetActorByName("laserIc")->SetColor({ 1.0f, 0.0f, 0.0f });
-                scene->GetActorByName("rocketIc")->SetColor({ 0.0f, 1.0f, 0.0f });
-                player->fireTime = 0.2f;
-                break;
-            default:
-                break;
-            }
+            //// With more weapons, this'll be longer
+            //switch (curWeapon)
+            //{
+            //case 0: // ROCKET -> LASER
+            //    scene->GetActorByName("rocketIc")->SetColor({ 1.0f, 0.0f, 0.0f });
+            //    scene->GetActorByName("laserIc")->SetColor({ 0.0f, 1.0f, 0.0f });
+            //    player->fireTime = 5;
+            //    break;
+            //case 1: // LASER -> ROCKET
+            //    scene->GetActorByName("laserIc")->SetColor({ 1.0f, 0.0f, 0.0f });
+            //    scene->GetActorByName("rocketIc")->SetColor({ 0.0f, 1.0f, 0.0f });
+            //    player->fireTime = 0.2f;
+            //    break;
+            //default:
+            //    break;
+            //}
         }
     }
     scene->Update(swaws::GetEngine().GetTime().GetDeltaTime());
@@ -203,7 +203,7 @@ void SpaceGame::SpawnEnemy()
         // Spawn @ Random Position away from Player
         swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
         swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 5};
-        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
+        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, swaws::Resources().Get<swaws::Texture>("spaceship-sprites/large-blue-02.png", swaws::GetEngine().GetRenderer()));
 
         enemy->damping = 0.7f;
         enemy->speed = (swaws::random::getReal() * 200) + 100;
