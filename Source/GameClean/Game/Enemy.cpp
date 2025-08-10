@@ -43,17 +43,17 @@ void Enemy::Update(float dt)
     if (fireTimer <= 0 && playerSeen) {
         fireTimer = fireTime;
 
-        std::shared_ptr<swaws::Model> model = std::make_shared<swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
+        //std::shared_ptr<swaws::Model> model = std::make_shared<swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
         // spawn rocket at player position and rotation
-        swaws::Transform transform{ this->transform.position, this->transform.rotation, 2.0f };
-        auto rocket = std::make_unique<Rocket>(transform, model);
-        rocket->speed = 500.0f;
-        rocket->lifespan = 1.5f;
-        rocket->name = "rocket";
-        rocket->tag = "enemy";
+        //swaws::Transform transform{ this->transform.position, this->transform.rotation, 2.0f };
+        //auto rocket = std::make_unique<Rocket>(transform, texture);
+        //rocket->speed = 500.0f;
+        //rocket->lifespan = 1.5f;
+        //rocket->name = "rocket";
+        //rocket->tag = "enemy";
 
-        scene->AddActor(std::move(rocket));
-        swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
+        //scene->AddActor(std::move(rocket));
+        //swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
     }
 
     Actor::Update(dt);

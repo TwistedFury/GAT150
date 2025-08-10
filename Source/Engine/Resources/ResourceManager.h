@@ -41,7 +41,7 @@ namespace swaws
 			auto& base = iter->second;
 			auto derived = std::dynamic_pointer_cast<T>(base);
 			if (derived == nullptr) {
-				std::cerr << "Resource Type Mismatch: " << key << std::endl;
+				Logger::Warning("Resource Type Mismatch: {}", key);
 			}
 
 			return derived;
@@ -50,7 +50,7 @@ namespace swaws
 		res_t<T> resource = std::make_shared<T>();
 		if (!resource->Load(name, std::forward<Args>(args)...))
 		{
-			std::cerr << "Could not load resource: " << name << std::endl;
+			Logger::Error("Could not load resource: {}", name);
 			return res_t<T>();
 		}
 		m_resources[key] = resource;

@@ -6,6 +6,7 @@
 #include "Core/Time.h"
 #include "Core/StringHelper.h"
 #include "Core/Singleton.h"
+#include "Core/Logger.h"
 #include "Framework/Actor.h"
 #include "Framework/Scene.h"
 #include "Framework/Game.h"

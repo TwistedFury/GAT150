@@ -68,25 +68,25 @@ void SpaceGame::Update(float dt)
 
         // Set up UI Icons
         float scale = 5;
-        std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
-        std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 0.0f, 0.0f });
+        //std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
+        //std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 0.0f, 0.0f });
 
         swaws::Transform rITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (10 * scale), (20 * scale) }, 0, scale);
         swaws::Transform lITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (10 * scale), (40 * scale) }, 0, scale);
-        std::unique_ptr<UIModel> rocketIconModel = std::make_unique<UIModel>(rITransform, rocketIcon);
-        std::unique_ptr<UIModel> laserIconModel = std::make_unique<UIModel>(lITransform, laserIcon);
+        //std::unique_ptr<UIModel> rocketIconModel = std::make_unique<UIModel>(rITransform, rocketIcon);
+        //std::unique_ptr<UIModel> laserIconModel = std::make_unique<UIModel>(lITransform, laserIcon);
 
-        rocketIconModel->speed = 0;
-        laserIconModel->speed = 0;
+        //rocketIconModel->speed = 0;
+        //laserIconModel->speed = 0;
 
-        rocketIconModel->tag = "ui";
-        laserIconModel->tag = "ui";
+        //rocketIconModel->tag = "ui";
+        //laserIconModel->tag = "ui";
 
-        rocketIconModel->name = "rocketIc";
-        laserIconModel->name = "laserIc";
+        //rocketIconModel->name = "rocketIc";
+        //laserIconModel->name = "laserIc";
 
-        scene->AddActor(std::move(rocketIconModel));
-        scene->AddActor(std::move(laserIconModel));
+        //scene->AddActor(std::move(rocketIconModel));
+        //scene->AddActor(std::move(laserIconModel));
     }
         break;
     case SpaceGame::GameState::Game:
@@ -194,9 +194,7 @@ void SpaceGame::OnPlayerDeath()
 }
 
 void SpaceGame::SpawnEnemy()
-{
-    std::shared_ptr<swaws::Model> enemyModel = std::make_shared <swaws::Model>(GameData::enemyPoints, swaws::vec3{ 1.0f, 1.0f, 0.0f });
-    
+{   
     Player* player = scene->GetActorByName<Player>("player");
     if (player)
     {

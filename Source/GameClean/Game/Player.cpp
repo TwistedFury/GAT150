@@ -46,7 +46,7 @@ void Player::Update(float dt)
     transform.position.x = swaws::math::wrap((float)transform.position.x, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
     transform.position.y = swaws::math::wrap((float)transform.position.y, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
 
-    std::shared_ptr<swaws::Model> model;
+    swaws::res_t<swaws::Texture> texture;
     std::unique_ptr<Rocket> rocket;
     std::unique_ptr<Laser> laser;
     swaws::Transform transform(this->transform.position, this->transform.rotation, 5);
@@ -59,8 +59,8 @@ void Player::Update(float dt)
         {
         case Player::Weapon::Rocket:
             // Spawn rocket in direction facing
-            model = std::make_shared <swaws::Model>(GameData::rocketPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
-            rocket = std::make_unique<Rocket>(transform, model);
+            texture = swaws::Resources().Get<swaws::Texture>("Placeholder.jpg", swaws::GetEngine().GetRenderer());
+            rocket = std::make_unique<Rocket>(transform, texture);
             rocket->speed = 750; // Set Speed
             rocket->lifespan = 1.5f;
             rocket->tag = "player"; // Set Tag
@@ -71,8 +71,8 @@ void Player::Update(float dt)
             break;
         case Player::Weapon::Laser:
             // Laser time BAYBEE
-            model = std::make_shared<swaws::Model>(GameData::laserPoints, swaws::vec3{ 1.0f, 0.0f, 0.0f });
-            laser = std::make_unique<Laser>(transform, model);
+            texture = swaws::Resources().Get<swaws::Texture>("Placeholder.jpg", swaws::GetEngine().GetRenderer());
+            laser = std::make_unique<Laser>(transform, texture);
             laser->lifespan = 2.0f;
             laser->tag = "player";
             laser->name = "laser";

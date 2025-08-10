@@ -1,5 +1,6 @@
 #pragma once
 #include "File.h"
+#include "Logger.h"
 
 #include <filesystem>
 #include <iostream>
@@ -88,7 +89,7 @@ namespace swaws::file
             content = buffer.str();
         }
         else {
-            std::cerr << "Error: Could not open the file.\n";
+            Logger::Error("Could not open file: {}", path);
             return false;
         }
         // Print file content
