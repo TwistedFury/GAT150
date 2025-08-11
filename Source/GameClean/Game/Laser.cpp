@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Laser.h"
-#include "Engine.h"
-#include "EngineInc.h"
 #include "Player.h"
 
 void Laser::Update(float dt)

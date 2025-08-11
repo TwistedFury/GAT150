@@ -1,12 +1,4 @@
 #pragma once
-#include "File.h"
-#include "Logger.h"
-
-#include <filesystem>
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <string>
 
 namespace swaws::file
 {

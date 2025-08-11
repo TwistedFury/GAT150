@@ -1,5 +1,5 @@
 #pragma once
-#include "EngineInc.h"
+
 #include "Enemy.h"
 #include "Player.h"
 #include "GameData.h"
@@ -42,18 +42,22 @@ void Enemy::Update(float dt)
     fireTimer -= dt;
     if (fireTimer <= 0 && playerSeen) {
         fireTimer = fireTime;
+        
+        swaws::Transform transform{ this->transform.position, this->transform.rotation, 2.0f };
+        auto rocket = std::make_unique<Rocket>(transform);
+        rocket->speed = 500.0f;
+        rocket->lifespan = 1.5f;
+        rocket->name = "rocket";
+        rocket->tag = "enemy";
 
-        //std::shared_ptr<swaws::Model> model = std::make_shared<swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
-        // spawn rocket at player position and rotation
-        //swaws::Transform transform{ this->transform.position, this->transform.rotation, 2.0f };
-        //auto rocket = std::make_unique<Rocket>(transform, texture);
-        //rocket->speed = 500.0f;
-        //rocket->lifespan = 1.5f;
-        //rocket->name = "rocket";
-        //rocket->tag = "enemy";
+        // Components
+        auto spriteRenderer = std::make_unique<swaws::SpriteRenderer>();
+        spriteRenderer->name = "";
 
-        //scene->AddActor(std::move(rocket));
-        //swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
+        rocket->AddComponent(std::move(spriteRenderer));
+
+        scene->AddActor(std::move(rocket));
+        swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
     }
 
     Actor::Update(dt);

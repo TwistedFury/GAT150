@@ -9,8 +9,8 @@ class Rocket : public swaws::Actor
 public:
 	Rocket() = default;
 
-	Rocket(const swaws::Transform& transform, swaws::res_t<swaws::Texture> texture) :
-		swaws::Actor{ transform, texture } {}
+	Rocket(const swaws::Transform& transform) :
+		swaws::Actor{ transform } {}
 
 	void Update(float dt) override;
 

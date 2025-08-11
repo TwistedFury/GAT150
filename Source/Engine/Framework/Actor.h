@@ -1,14 +1,16 @@
 #pragma once
-
+#include "Object.h"
+#include "Component.h"
 #include "Math/Transform.h"
 #include "Math/Vector3.h"
 #include "Renderer/Texture.h"
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace swaws
 {
-	class Actor
+	class Actor : public Object
 	{
 	public:
 		std::string name;
@@ -29,29 +31,26 @@ namespace swaws
 		class Scene* scene{ nullptr };
 	public:
 		Actor() = default;
-		Actor(const Transform& transform, std::shared_ptr<class Texture> texture) :
-		transform{ transform }, m_texture{ texture } 
+		Actor(const Transform& transform) :
+			transform{ transform }
 		{ }
 
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
 
 		/// <summary>
-		/// Returns a reference to the transform object. This method has deprecated.
+		/// Returns a reference to the object's transform. This function is depracated.
 		/// </summary>
-		/// <returns>A reference to the internal Transform object.</returns>
+		/// <returns>A reference to the transform associated with the object.</returns>
 		Transform& GetTransform() { return transform; }
 		virtual float GetRadius();
 
 		virtual void OnCollision(Actor* other) = 0;
 
-		// colors
-		//void SetColor(vec3 color) { m_model->SetColor(color); }
-		//vec3 GetColor() const { return m_model->GetColor(); }
+		// Components
+		void AddComponent(std::unique_ptr<Component> component);
 
 	protected:
-		res_t<Texture> m_texture;
-
-		//std::shared_ptr<Model> m_model;
+		std::vector<std::unique_ptr<Component>> m_components;
 	};
 }

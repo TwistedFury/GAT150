@@ -1,14 +1,7 @@
 #pragma once
-#include <SDL3/SDL.h>
-#include <fmod.hpp>
-
-#include "EngineInc.h"
 
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
-
-#include <iostream>
-#include <memory>
 
 float rotate = 0;
 

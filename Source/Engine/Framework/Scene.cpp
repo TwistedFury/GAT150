@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Scene.h"
-#include "Actor.h"
 #include "Engine.h"
 #include "Renderer/Renderer.h"
 
@@ -25,7 +23,7 @@ namespace swaws
 		// Update All Actors
 		for (auto& act : m_actors)
 		{
-			act->Update(dt);
+			if (act->isActive) act->Update(dt);
 		}
 
 		// Remove Destroyed Actors
@@ -75,7 +73,7 @@ namespace swaws
 	{
 		for (auto& act : m_actors)
 		{
-			act->Draw(renderer);
+			if (act->isActive) act->Draw(renderer);
 		}
 	}
 

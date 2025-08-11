@@ -3,11 +3,7 @@
 #include "SpaceGame.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "UIModel.h"
 #include "GameData.h"
-#include "EngineInc.h"
-
-#include <vector>
 
 bool SpaceGame::Initialize()
 {

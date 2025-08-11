@@ -12,8 +12,8 @@ public:
 public:
 	Laser() = default;
 
-	Laser(const swaws::Transform& transform, swaws::res_t<swaws::Texture> texture) :
-		swaws::Actor{ transform, texture } 
+	Laser(const swaws::Transform& transform) :
+		swaws::Actor{ transform } 
 	{
 		length = (float)swaws::GetEngine().GetRenderer().GetWindowWidth();
 	}

@@ -1,6 +1,4 @@
 #include "Text.h"
-#include "Core/Logger.h"
-#include <cassert>
 
 namespace swaws
 {

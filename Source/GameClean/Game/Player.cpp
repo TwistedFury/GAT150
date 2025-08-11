@@ -4,7 +4,6 @@
 #include "Laser.h"
 #include "GameData.h"
 #include "SpaceGame.h"
-#include "EngineInc.h"
 
 void Player::Update(float dt)
 {

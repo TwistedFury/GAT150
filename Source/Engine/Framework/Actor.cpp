@@ -1,6 +1,6 @@
 #pragma once
-#include "Actor.h"
 #include "Renderer/Renderer.h"
+#include "Components/RendererComponent.h"
 
 namespace swaws
 {
@@ -18,6 +18,11 @@ namespace swaws
 			destroyed = lifespan <= 0;
 		}
 
+		for (auto& component : m_components)
+		{
+			if (component->isActive) component->Update(dt);
+		}
+
 		// Larger effect on damping speed with std::exp
 		transform.position += velocity * dt;
 		velocity *= std::exp(-damping * dt);
@@ -30,7 +35,14 @@ namespace swaws
 	void Actor::Draw(Renderer& renderer)
 	{
 		if (destroyed) return;
-		renderer.DrawTexture(m_texture.get(), transform.position.x, transform.position.y, transform.rotation, transform.scale);
+		for (auto& component : m_components)
+		{
+			if (component->isActive)
+			{
+				auto rendererC = dynamic_cast<RendererComponent*>(component.get());
+				if (rendererC) rendererC->Draw(renderer);
+			}
+		}
 	}
 
 	/// <summary>
@@ -39,6 +51,14 @@ namespace swaws
 	/// <returns>The computed radius of the actor. Returns 0 if the actor has no texture.</returns>
 	float Actor::GetRadius()
 	{
-		return (m_texture) ? (m_texture->GetSize().Length() * 0.5f) * transform.scale * 0.9f : 0;
+		return 50.0f; // (m_texture) ? (m_texture->GetSize().Length() * 0.5f) * transform.scale * 0.9f : 0;
+	}
+
+
+	void Actor::AddComponent(std::unique_ptr<Component> component)
+	{
+		// REMNANT MOMENT
+		component->owner = this;
+		m_components.push_back(std::move(component));
 	}
 }

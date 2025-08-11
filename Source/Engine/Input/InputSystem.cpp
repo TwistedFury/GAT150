@@ -1,6 +1,5 @@
 #pragma once
 #include "InputSystem.h"
-#include <SDL3/SDL.h>
 
 namespace swaws {
 	/// <summary>

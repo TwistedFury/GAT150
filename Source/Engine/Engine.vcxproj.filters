@@ -27,11 +27,11 @@
     <Filter Include="Source\Framework">
       <UniqueIdentifier>{b6fe6fac-193f-4086-a589-f40331aa072c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Include">
-      <UniqueIdentifier>{4f9b1a05-f040-4445-bb69-49b510914bb5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Resources">
       <UniqueIdentifier>{a084b61e-9654-4b20-b2f7-2b5817936a5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Components">
+      <UniqueIdentifier>{fbf9795d-0016-4a46-823d-0db2d2c3afb9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +77,12 @@
     <ClCompile Include="Renderer\Texture.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="EnginePCH.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SpriteRenderer.cpp">
+      <Filter>Source\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Random.h">
@@ -121,9 +127,6 @@
     <ClInclude Include="Engine.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="EngineInc.h">
-      <Filter>Source\Include</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Game.h">
       <Filter>Source\Framework</Filter>
     </ClInclude>
@@ -153,6 +156,24 @@
     </ClInclude>
     <ClInclude Include="Core\Logger.h">
       <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineMinimal.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="EnginePCH.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Object.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Component.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\RendererComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SpriteRenderer.h">
+      <Filter>Source\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

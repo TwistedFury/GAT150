@@ -1,7 +1,5 @@
 #pragma once
 #include "GameData.h"
-#include "Engine.h"
-#include "Renderer/Renderer.h"
 
 namespace GameData
 {

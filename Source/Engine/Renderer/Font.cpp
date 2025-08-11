@@ -1,6 +1,5 @@
 #pragma once
 #include "Font.h"
-#include "Core/Logger.h"
 
 namespace swaws
 {
