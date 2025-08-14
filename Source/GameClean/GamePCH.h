@@ -6,6 +6,7 @@
 
 // Systems
 #include "Audio/AudioSystem.h"
+#include "Audio/AudioClip.h"
 #include "Input/InputSystem.h"
 #include "Renderer/Renderer.h"
 
@@ -18,3 +19,5 @@
 
 // Components
 #include "Components/SpriteRenderer.h"
+#include "Components/RigidBody.h"
+#include "Components/CircleCollider2D.h"

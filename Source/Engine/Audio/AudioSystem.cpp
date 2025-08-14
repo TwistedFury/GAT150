@@ -1,5 +1,7 @@
 #pragma once
 #include "AudioSystem.h"
+#include "AudioClip.h"
+#include "fmod_errors.h"
 
 namespace swaws
 {
@@ -11,10 +13,10 @@ namespace swaws
         void* extradriverdata = nullptr;
         audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
 
-        AddSound("blaster.wav", "blaster");
-        AddSound("laser.mp3", "laser");
-        AddSound("gameOver_pacman.wav", "gameOver");
-        AddSound("explosion.wav", "explosion");
+        Resources().Get<AudioClip>("blaster.wav", "blaster", this);
+        Resources().Get<AudioClip>("laser.mp3", "laser", this);
+        Resources().Get<AudioClip>("gameOver_pacman.wav", "gameOver", this);
+        Resources().Get<AudioClip>("explosion.wav", "explosion", this);
         /*
         * 80s Space Mission Music by Tomentum+ -- https://freesound.org/s/723496/ -- License: Attribution 4.0
 
@@ -22,14 +24,14 @@ namespace swaws
 
         ISS2.mp3 by oae888 -- https://freesound.org/s/541584/ -- License: Creative Commons 0
         */
-        AddSound("sndtrack.wav", "soundtrack", FMOD_LOOP_NORMAL);
+        Resources().Get<AudioClip>("sndtrack.wav", "soundtrack", this);
     }
 
-    void AudioSystem::AddSound(const char* name_or_data, std::string refName, FMOD_MODE mode)
+    bool AudioSystem::PlaySound(AudioClip& clip)
     {
-        FMOD::Sound* sound = nullptr;
-        audio->createSound(name_or_data, mode, 0, &sound);
-        sounds[refName] = sound;
+        FMOD_RESULT result = audio->playSound(clip.sound, 0, false, nullptr);
+        if (!CheckFMODResult(result)) return false;
+        return true;
     }
 
     /// <summary>
@@ -46,5 +48,15 @@ namespace swaws
     void AudioSystem::Shutdown()
     {
         //
+    }
+
+    bool AudioSystem::CheckFMODResult(FMOD_RESULT result)
+    {
+        if (result != FMOD_OK)
+        {
+            Logger::Error("FMOD Error: {}", FMOD_ErrorString(result));
+            return false;
+        }
+        return true;
     }
 }

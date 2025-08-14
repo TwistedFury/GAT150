@@ -10,22 +10,19 @@ namespace swaws
 	/// <param name="dt">The elapsed time since the last update, in seconds.</param>
 	void Actor::Update(float dt)
 	{
-		if (destroyed) return;
-
-		if (lifespan != 0)
+		if (lifespan > 0)
 		{
 			lifespan -= dt;
 			destroyed = lifespan <= 0;
 		}
 
+		if (destroyed) return;
+
+		// Update Components
 		for (auto& component : m_components)
 		{
 			if (component->isActive) component->Update(dt);
 		}
-
-		// Larger effect on damping speed with std::exp
-		transform.position += velocity * dt;
-		velocity *= std::exp(-damping * dt);
 	}
 
 	/// <summary>

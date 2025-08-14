@@ -20,7 +20,7 @@ public:
 	Player() = default;
 	
 	Player(const swaws::Transform& transform) :
-		swaws::Actor{ transform } { this->damping = 0.2f; }
+		swaws::Actor{ transform } { }
 
 	void Update(float dt) override;
 

@@ -19,9 +19,6 @@ namespace swaws
 		float speed = 200;
 		float maxSpeed = 200;
 
-		vec2 velocity{ 0, 0 };
-		float damping{ 0.3f };
-
 		float length{ 0 }; // USED FOR STRAIGHT OBJECTS LIKE LASERS
 
 		bool destroyed{ false };
@@ -43,6 +40,11 @@ namespace swaws
 		/// </summary>
 		/// <returns>A reference to the transform associated with the object.</returns>
 		Transform& GetTransform() { return transform; }
+
+		/// <summary>
+		/// Retrieves the radius value. Currently only in use for straight line detection in Scene.cpp
+		/// </summary>
+		/// <returns>The radius as a floating-point value.</returns>
 		virtual float GetRadius();
 
 		virtual void OnCollision(Actor* other) = 0;
@@ -50,7 +52,46 @@ namespace swaws
 		// Components
 		void AddComponent(std::unique_ptr<Component> component);
 
+		template <typename T>
+		T* GetComponent();
+
+		template <typename T>
+		std::vector<T*> GetComponents();
+
 	protected:
 		std::vector<std::unique_ptr<Component>> m_components;
 	};
+
+	/// <summary>
+	/// Retrieves the first component of the specified type from the actor.
+	/// </summary>
+	/// <typeparam name="T">The type of component to retrieve.</typeparam>
+	/// <returns>A pointer to the first component of type T if found; otherwise, nullptr.</returns>
+	template<typename T>
+	inline T* Actor::GetComponent()
+	{
+		for (auto& component : m_components)
+		{
+			auto typeConvert = dynamic_cast<T*>(component.get());
+			if (typeConvert) return typeConvert;
+		}
+		return nullptr;
+	}
+
+	/// <summary>
+	/// Retrieves all components of the specified type attached to the actor.
+	/// </summary>
+	/// <typeparam name="T">The type of component to retrieve.</typeparam>
+	/// <returns>A vector containing pointers to all components of type T attached to the actor.</returns>
+	template<typename T>
+	inline std::vector<T*> Actor::GetComponents()
+	{
+		std::vector<T*> results;
+		for (auto& component : m_components)
+		{
+			auto typeConvert = dynamic_cast<T*>(component.get());
+			if (typeConvert) results.push_back(typeConvert);
+		}
+		return results;
+	}
 }

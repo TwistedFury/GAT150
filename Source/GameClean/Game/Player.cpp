@@ -11,19 +11,22 @@ void Player::Update(float dt)
     swaws::vec2 pv = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(angle));
     pv *= swaws::random::getReal(80.0f, 150.0f);
 
-    if (velocity.Normalized().x != 0)
+    auto rb = GetComponent<swaws::RigidBody>();
+    if (rb)
     {
-        float offsetDistance = -GetRadius() + 10;
-        swaws::vec2 offset = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation)) * offsetDistance;
+        if (rb->velocity.Normalized().x != 0)
+        {
+            float offsetDistance = -GetRadius() + 10;
+            swaws::vec2 offset = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation)) * offsetDistance;
 
-        swaws::Particle particle;
-        particle.position = transform.position + offset;
-        particle.velocity = pv * swaws::vec2{ swaws::random::getReal(-50.0f, 50.0f), swaws::random::getReal(-50.0f, 50.0f) };
-        particle.color = swaws::vec3{ 1, 1, 1 };
-        particle.lifespan = 0.5f;
+            swaws::Particle particle;
+            particle.position = transform.position + offset;
+            particle.velocity = pv * swaws::vec2{ swaws::random::getReal(-50.0f, 50.0f), swaws::random::getReal(-50.0f, 50.0f) };
+            particle.color = swaws::vec3{ 1, 1, 1 };
+            particle.lifespan = 0.5f;
 
-
-        swaws::GetEngine().GetPS().AddParticle(particle);
+            swaws::GetEngine().GetPS().AddParticle(particle);
+        }
     }
 
     // rotation
@@ -40,7 +43,15 @@ void Player::Update(float dt)
 
     swaws::vec2 direction{ 1, 0 };
     swaws::vec2 force = direction.Rotate(swaws::math::DegToRad(transform.rotation)) * thrust * speed;
-    velocity += force * dt;
+
+    // Max Speed Verification
+    if (rb)
+    {
+        float velMag = rb->velocity.Length();
+        if (velMag > maxSpeed) {
+            rb->velocity = rb->velocity.Normalized() * maxSpeed;
+        }
+    }
 
     transform.position.x = swaws::math::wrap((float)transform.position.x, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
     transform.position.y = swaws::math::wrap((float)transform.position.y, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
@@ -57,6 +68,7 @@ void Player::Update(float dt)
         switch (weapon)
         {
         case Player::Weapon::Rocket:
+        {
             // Spawn rocket in direction facing
             texture = swaws::Resources().Get<swaws::Texture>("Placeholder.jpg", swaws::GetEngine().GetRenderer());
             rocket = std::make_unique<Rocket>(transform, texture);
@@ -65,10 +77,25 @@ void Player::Update(float dt)
             rocket->tag = "player"; // Set Tag
             rocket->name = "rocket";
 
+            auto sr = std::make_unique<swaws::SpriteRenderer>();
+            sr->textureName = "NoFileNamePlsUpdate";
+
+            auto rb = std::make_unique<swaws::RigidBody>();
+            rb->damping = 0.0f; // Set Damping for rocket
+
+            auto collider = std::make_unique<swaws::CircleCollider2D>();
+            collider->radius = 20;
+
+            rocket->AddComponent(std::move(sr));
+            rocket->AddComponent(std::move(rb));
+            rocket->AddComponent(std::move(collider));
+
             scene->AddActor(std::move(rocket));
             swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
             break;
+        }
         case Player::Weapon::Laser:
+        {
             // Laser time BAYBEE
             texture = swaws::Resources().Get<swaws::Texture>("Placeholder.jpg", swaws::GetEngine().GetRenderer());
             laser = std::make_unique<Laser>(transform, texture);
@@ -76,9 +103,23 @@ void Player::Update(float dt)
             laser->tag = "player";
             laser->name = "laser";
 
+            auto sr = std::make_unique<swaws::SpriteRenderer>();
+            sr->textureName = "NoFileNamePlsUpdate";
+
+            auto rb = std::make_unique<swaws::RigidBody>();
+            rb->damping = 0.0f; // Set Damping for laser
+
+            //auto collider = std::make_unique<swaws::StraightCollider2D>();
+            //collider->radius = swaws::GetEngine().GetRenderer().GetWindowWidth();
+
+            rocket->AddComponent(std::move(sr));
+            rocket->AddComponent(std::move(rb));
+            //rocket->AddComponent(std::move(collider));
+
             scene->AddActor(std::move(laser));
             swaws::GetEngine().GetAudio().playSound("laser", 0, false, 0);
             break;
+        }
         default:
             break;
         }

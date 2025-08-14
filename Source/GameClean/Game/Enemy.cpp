@@ -28,11 +28,16 @@ void Enemy::Update(float dt)
     }
 
     swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation)) * speed;
-    velocity += force * dt;
+    //velocity += force * dt;
 
-    float velMag = velocity.Length();
-    if (velMag > maxSpeed) {
-        velocity = velocity.Normalized() * maxSpeed;
+    auto rb = GetComponent<swaws::RigidBody>();
+    if (rb) {
+        rb->velocity += force * dt;
+
+        float velMag = rb->velocity.Length();
+        if (velMag > maxSpeed) {
+            rb->velocity = rb->velocity.Normalized() * maxSpeed;
+        }
     }
 
     transform.position.x = swaws::math::wrap(transform.position.x, 0.0f, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
@@ -51,10 +56,18 @@ void Enemy::Update(float dt)
         rocket->tag = "enemy";
 
         // Components
-        auto spriteRenderer = std::make_unique<swaws::SpriteRenderer>();
-        spriteRenderer->name = "";
+        auto sr = std::make_unique<swaws::SpriteRenderer>();
+        sr->textureName = "NoFileNamePlsUpdate";
 
-        rocket->AddComponent(std::move(spriteRenderer));
+        auto rb = std::make_unique<swaws::RigidBody>();
+        rb->damping = 0.0f; // Set Damping for rocket
+
+        auto collider = std::make_unique<swaws::CircleCollider2D>();
+        collider->radius = 20;
+
+        rocket->AddComponent(std::move(sr));
+        rocket->AddComponent(std::move(rb));
+        rocket->AddComponent(std::move(collider));
 
         scene->AddActor(std::move(rocket));
         swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);

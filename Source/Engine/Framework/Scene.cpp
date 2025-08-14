@@ -2,6 +2,7 @@
 
 #include "Engine.h"
 #include "Renderer/Renderer.h"
+#include "Components/ColliderComponent.h"
 
 namespace swaws
 {
@@ -40,13 +41,18 @@ namespace swaws
 			{
 				if (actorA == actorB || (actorA->destroyed || actorB->destroyed)) continue;
 				
-				float distance = (actorA->transform.position - actorB->transform.position).Length();
-				if (distance <= (actorA->GetRadius() + actorB->GetRadius()))
+				auto colliderA = actorA->GetComponent<ColliderComponent>();
+				auto colliderB = actorB->GetComponent<ColliderComponent>();
+
+				if (colliderA == nullptr || colliderB == nullptr) continue;
+
+				if (colliderA->CheckCollision(*colliderB))
 				{
 					actorA->OnCollision(actorB.get());
 					actorB->OnCollision(actorA.get());
 				}
 
+				// TODO: Make into Straight Line Collision
 				// Straight-Line Collision Checks (Sight Checks?)
 				if (actorA->name == "laser") {
 					vec2 laserStart = actorA->transform.position;
