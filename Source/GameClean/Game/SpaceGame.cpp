@@ -25,7 +25,7 @@ bool SpaceGame::Initialize()
     { 0, 0 },
     { (float)swaws::GetEngine().GetRenderer().GetWindowWidth(), 0}
     };
-    swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("sndtrack.wav", &swaws::GetEngine().GetAudio()).get());
+    swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("sndtrack.wav", swaws::GetEngine().GetAudio()));
 
     return true;
 }
@@ -50,24 +50,24 @@ void SpaceGame::Update(float dt)
         scene->RemoveAllActors();
         //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
         swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 5);
-        std::unique_ptr<Player> player = std::make_unique<Player>(transform, swaws::Resources().Get<swaws::Texture>("spaceship-sprites/blue_01.png", swaws::GetEngine().GetRenderer()));
+        std::unique_ptr<Player> player = std::make_unique<Player>(transform);
 
         player->speed = 1500; // Set player Speed
         player->rotationRate = 180; // Set Rotation Rate
         player->tag = "player";
         player->name = "player";
 
-        auto sr = std::make_unique<swaws::SpriteRenderer>();
-        sr->textureName = "spaceship-sprites/blue_01.png";
+        auto mr = std::make_unique<swaws::MeshRenderer>();
+        mr->meshName = "spaceship-sprites/blue_01.png";
 
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.5f; // Set Damping for player
 
         auto collider = std::make_unique<swaws::CircleCollider2D>();
-        collider->radius = 60;// sr->GetRadius();
+        collider->radius = 60;
 
         // Add Components to Player
-        player->AddComponent(std::move(sr));
+        player->AddComponent(std::move(mr));
         player->AddComponent(std::move(rb));
         player->AddComponent(std::move(collider));
 
@@ -113,7 +113,7 @@ void SpaceGame::Update(float dt)
             if (m_lives == 0)
             {
                 m_stateTimer = 3;
-                swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("gameOver.wav", &swaws::GetEngine().GetAudio()).get());
+                swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("gameOver.wav", swaws::GetEngine().GetAudio()));
                 m_gameState = GameState::GameOver;
             }
             else m_gameState = GameState::StartRound;
@@ -209,10 +209,13 @@ void SpaceGame::SpawnEnemy()
         // Spawn @ Random Position away from Player
         swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
         swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 5};
-        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, swaws::Resources().Get<swaws::Texture>("spaceship-sprites/large-blue-02.png", swaws::GetEngine().GetRenderer()));
+        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);
 
-        auto sr = std::make_unique<swaws::SpriteRenderer>();
-        sr->textureName = "spaceship-sprites/large-blue-02.png";
+        //auto sr = std::make_unique<swaws::SpriteRenderer>();
+        //sr->textureName = "spaceship-sprites/large-blue-02.png";
+
+        auto mr = std::make_unique<swaws::MeshRenderer>();
+        mr->meshName = "enemyMeshNotHad";
 
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.5f; // Set Damping for enemy
@@ -226,7 +229,7 @@ void SpaceGame::SpawnEnemy()
         enemy->fireTimer = 5;
 
         // Add Components
-        enemy->AddComponent(std::move(sr));
+        enemy->AddComponent(std::move(mr));
         enemy->AddComponent(std::move(rb));
         enemy->AddComponent(std::move(collider));
 

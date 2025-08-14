@@ -10,8 +10,36 @@ int main(int argc, char* argv[]) {
     swaws::file::SetCurrentDirectory("Assets");
     swaws::Logger::Info("Current Directory {}", swaws::file::GetCurrentDirectory());
 
-    std::cout << argc << std::endl;
+    // load the json data from a file
+    std::string buffer;
+    swaws::file::ReadTextFile("json.txt", buffer);
+    // show the contents of the json file (debug)
+    std::cout << buffer << std::endl;
 
+    // create json document from the json file contents
+    rapidjson::Document document;
+    swaws::json::Load("json.txt", document);
+
+    // read/show the data from the json file
+    std::string name;
+    int age;
+    float speed;
+    bool isAwake;
+    swaws::vec2 position;
+    swaws::vec3 color;
+
+    // read the json data
+    swaws::json::Read(document, "name", name);
+    swaws::json::Read(document, "age", age);
+    swaws::json::Read(document, "speed", speed);
+    swaws::json::Read(document, "isAwake", isAwake);
+    swaws::json::Read(document, "position", position);
+    swaws::json::Read(document, "color", color);
+
+    // show the data
+    std::cout << name << " " << age << " " << speed << " " << isAwake << std::endl;
+    std::cout << position.x << " " << position.y << std::endl;
+    std::cout << color.r << " " << color.g << " " << color.b << " " << std::endl;
     return 0;
 
     // Initialize Engine Systems
@@ -23,12 +51,6 @@ int main(int argc, char* argv[]) {
 
     SDL_Event e;
     bool quit = false;
-
-    // create texture, using shared_ptr so texture can be shared
-    //std::shared_ptr<swaws::Texture> texture = std::make_shared<swaws::Texture>();
-    //texture->Load("Placeholder.jpg", swaws::GetEngine().GetRenderer());
-
-    auto texture = swaws::Resources().Get<swaws::Texture>("spaceship-sprites/blue_01.png", swaws::GetEngine().GetRenderer());
     
     // MAIN LOOP
     while (!quit) {
@@ -46,7 +68,7 @@ int main(int argc, char* argv[]) {
 
         rotate += 90 * swaws::GetEngine().GetTime().GetDeltaTime();
 
-        swaws::GetEngine().GetRenderer().DrawTexture(texture.get(), 30, 30, rotate, 4);
+        //swaws::GetEngine().GetRenderer().DrawTexture(texture.get(), 30, 30, rotate, 4);
 
         // Draw Actors
         game->Draw(swaws::GetEngine().GetRenderer());

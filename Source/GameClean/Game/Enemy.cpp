@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../GamePCH.h"
 #include "Enemy.h"
 #include "Player.h"
 #include "GameData.h"
@@ -70,7 +70,7 @@ void Enemy::Update(float dt)
         rocket->AddComponent(std::move(collider));
 
         scene->AddActor(std::move(rocket));
-        swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
+        swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("blaster.wav", swaws::GetEngine().GetAudio()));
     }
 
     Actor::Update(dt);
@@ -94,6 +94,6 @@ void Enemy::OnCollision(Actor* other)
 
             swaws::GetEngine().GetPS().AddParticle(particle);
         }
-        swaws::GetEngine().GetAudio().playSound("explosion", 0, false, 0);
+        swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
     }
 }

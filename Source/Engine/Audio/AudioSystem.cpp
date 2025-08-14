@@ -13,10 +13,10 @@ namespace swaws
         void* extradriverdata = nullptr;
         audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
 
-        Resources().Get<AudioClip>("blaster.wav", "blaster", this);
-        Resources().Get<AudioClip>("laser.mp3", "laser", this);
-        Resources().Get<AudioClip>("gameOver_pacman.wav", "gameOver", this);
-        Resources().Get<AudioClip>("explosion.wav", "explosion", this);
+        Resources().Get<AudioClip>("blaster.wav", *this);
+        Resources().Get<AudioClip>("laser.mp3", *this);
+        Resources().Get<AudioClip>("gameOver_pacman.wav", *this);
+        Resources().Get<AudioClip>("explosion.wav", *this);
         /*
         * 80s Space Mission Music by Tomentum+ -- https://freesound.org/s/723496/ -- License: Attribution 4.0
 
@@ -24,7 +24,7 @@ namespace swaws
 
         ISS2.mp3 by oae888 -- https://freesound.org/s/541584/ -- License: Creative Commons 0
         */
-        Resources().Get<AudioClip>("sndtrack.wav", "soundtrack", this);
+        Resources().Get<AudioClip>("sndtrack.wav", *this);
     }
 
     bool AudioSystem::PlaySound(AudioClip& clip)

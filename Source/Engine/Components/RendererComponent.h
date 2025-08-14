@@ -6,6 +6,6 @@ namespace swaws
 	class RendererComponent : public Component
 	{
 	public:
-		virtual void Draw(class Renderer& renderer);
+		virtual void Draw(class Renderer& renderer) = 0;
 	};
 }

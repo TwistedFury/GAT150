@@ -1,4 +1,5 @@
 #pragma once
+#include "../GamePCH.h"
 #include "Player.h"
 #include "Rocket.h"
 #include "Laser.h"
@@ -56,7 +57,6 @@ void Player::Update(float dt)
     transform.position.x = swaws::math::wrap((float)transform.position.x, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
     transform.position.y = swaws::math::wrap((float)transform.position.y, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
 
-    swaws::res_t<swaws::Texture> texture;
     std::unique_ptr<Rocket> rocket;
     std::unique_ptr<Laser> laser;
     swaws::Transform transform(this->transform.position, this->transform.rotation, 5);
@@ -70,15 +70,14 @@ void Player::Update(float dt)
         case Player::Weapon::Rocket:
         {
             // Spawn rocket in direction facing
-            texture = swaws::Resources().Get<swaws::Texture>("Placeholder.jpg", swaws::GetEngine().GetRenderer());
-            rocket = std::make_unique<Rocket>(transform, texture);
+            rocket = std::make_unique<Rocket>(transform);
             rocket->speed = 750; // Set Speed
             rocket->lifespan = 1.5f;
             rocket->tag = "player"; // Set Tag
             rocket->name = "rocket";
 
-            auto sr = std::make_unique<swaws::SpriteRenderer>();
-            sr->textureName = "NoFileNamePlsUpdate";
+            auto mr = std::make_unique<swaws::MeshRenderer>();
+            mr->meshName = "NoFileNamePlsUpdate";
 
             auto rb = std::make_unique<swaws::RigidBody>();
             rb->damping = 0.0f; // Set Damping for rocket
@@ -86,38 +85,37 @@ void Player::Update(float dt)
             auto collider = std::make_unique<swaws::CircleCollider2D>();
             collider->radius = 20;
 
-            rocket->AddComponent(std::move(sr));
+            rocket->AddComponent(std::move(mr));
             rocket->AddComponent(std::move(rb));
             rocket->AddComponent(std::move(collider));
 
             scene->AddActor(std::move(rocket));
-            swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
+            swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("blaster.wav", swaws::GetEngine().GetAudio()));
             break;
         }
         case Player::Weapon::Laser:
         {
             // Laser time BAYBEE
-            texture = swaws::Resources().Get<swaws::Texture>("Placeholder.jpg", swaws::GetEngine().GetRenderer());
-            laser = std::make_unique<Laser>(transform, texture);
+            laser = std::make_unique<Laser>(transform);
             laser->lifespan = 2.0f;
             laser->tag = "player";
             laser->name = "laser";
 
-            auto sr = std::make_unique<swaws::SpriteRenderer>();
-            sr->textureName = "NoFileNamePlsUpdate";
-
             auto rb = std::make_unique<swaws::RigidBody>();
             rb->damping = 0.0f; // Set Damping for laser
+
+            auto mr = std::make_unique<swaws::MeshRenderer>();
+            mr->meshName = "NoFileNamePlsUpdate";
 
             //auto collider = std::make_unique<swaws::StraightCollider2D>();
             //collider->radius = swaws::GetEngine().GetRenderer().GetWindowWidth();
 
-            rocket->AddComponent(std::move(sr));
+            rocket->AddComponent(std::move(mr));
             rocket->AddComponent(std::move(rb));
             //rocket->AddComponent(std::move(collider));
 
             scene->AddActor(std::move(laser));
-            swaws::GetEngine().GetAudio().playSound("laser", 0, false, 0);
+            swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("laser.mp3", swaws::GetEngine().GetAudio()));
             break;
         }
         default:
@@ -134,7 +132,7 @@ void Player::OnCollision(Actor* other)
     {
         destroyed = true;
         dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
-        swaws::GetEngine().GetAudio().playSound("explosion", 0, false, 0);
+        swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
     }
 }
 

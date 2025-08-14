@@ -8,11 +8,10 @@ namespace swaws
 		AudioClip() = default;
 		~AudioClip();
 
-		bool Load(const std::string& filename, const std::string& refName, class AudioSystem& audioSystem);
+		bool Load(const std::string& filename, class AudioSystem& audioSystem);
 
 	private:
 		friend class AudioSystem;
 		FMOD::Sound* sound{ nullptr };
-		std::string refName;
 	};
 }

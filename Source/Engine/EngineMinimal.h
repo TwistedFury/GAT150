@@ -2,6 +2,7 @@
 
 // Core
 #include "Core/File.h"
+#include "Core/Json.h"
 #include "Core/Logger.h"
 #include "Core/Random.h"
 #include "Core/Singleton.h"
@@ -34,6 +35,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <istream>
+#include <ostream>
 #include <sstream>
 #include <memory>
 #include <vector>
