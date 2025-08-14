@@ -41,7 +41,7 @@
     <ClCompile Include="Input\InputSystem.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Model.cpp">
+    <ClCompile Include="Renderer\Mesh.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Renderer.cpp">
@@ -118,7 +118,7 @@
     <ClInclude Include="Math\Vector3.h">
       <Filter>Source\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Model.h">
+    <ClInclude Include="Renderer\Mesh.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Math\Transform.h">

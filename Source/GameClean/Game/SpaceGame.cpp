@@ -25,7 +25,7 @@ bool SpaceGame::Initialize()
     { 0, 0 },
     { (float)swaws::GetEngine().GetRenderer().GetWindowWidth(), 0}
     };
-    swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("sndtrack.wav", swaws::GetEngine().GetAudio()).get());
+    swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("sndtrack.wav", &swaws::GetEngine().GetAudio()).get());
 
     return true;
 }
@@ -113,7 +113,7 @@ void SpaceGame::Update(float dt)
             if (m_lives == 0)
             {
                 m_stateTimer = 3;
-                swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("gameOver.wav", swaws::GetEngine().GetAudio()).get());
+                swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("gameOver.wav", &swaws::GetEngine().GetAudio()).get());
                 m_gameState = GameState::GameOver;
             }
             else m_gameState = GameState::StartRound;

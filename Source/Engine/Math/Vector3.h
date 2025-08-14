@@ -87,6 +87,65 @@ namespace swaws
 		}
 	};
 
+	template <typename T>
+	std::ostream& operator << (std::ostream& ostream, Vector3<T>& v)
+	{
+		ostream << "{" << v.r << ", " << v.g << ", " << v.b << "}";
+		return ostream;
+	}
+
+	template <typename T>
+	std::istream& operator >> (std::istream& istream, Vector3<T>& v)
+	{
+		char ch = '\0';
+
+		// { r, g, b }
+
+		if (!(istream >> std::ws >> ch) || ch != '{')
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // {
+		}
+
+		if (!(istream >> std::ws >> v.r))
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // -1
+		}
+
+		if (!(istream >> std::ws >> ch) || ch != ',')
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // ,
+		}
+
+		if (!(istream >> std::ws >> v.g))
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // -1
+		}
+
+		if (!(istream >> std::ws >> ch) || ch != ',')
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // ,
+		}
+
+		if (!(istream >> std::ws >> v.b))
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // -1
+		}
+
+		if (!(istream >> std::ws >> ch) || ch != '}')
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // }
+		}
+
+		return istream;
+	}
+
 	using ivec3 = Vector3<int>;
 	using vec3 = Vector3<float>;
 }

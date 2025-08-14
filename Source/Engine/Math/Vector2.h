@@ -191,6 +191,51 @@ namespace swaws {
 		}
 	};
 
+	template <typename T>
+	std::ostream& operator << (std::ostream& ostream, const Vector2<T>& v)
+	{
+		ostream << "{" << v.x << ", " << v.y << "}";
+		return ostream;
+	}
+
+	template <typename T>
+	std::istream& operator >> (std::istream& istream, Vector2<T>& v)
+	{
+		char ch = '\0';
+
+		if (!(istream >> std::ws >> ch) || ch != '{')
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // {
+		}
+
+		if (!(istream >> std::ws >> v.x))
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // -1
+		}
+
+		if (!(istream >> std::ws >> ch) || ch != ',')
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // ,
+		}
+
+		if (!(istream >> std::ws >> v.y))
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // -1
+		}
+
+		if (!(istream >> std::ws >> ch) || ch != '}')
+		{
+			istream.setstate(std::ios::failbit);
+			return istream; // }
+		}
+
+		return istream;
+	}
+
 	using ivec2 = Vector2<int>;
 	using vec2 = Vector2<float>;
 }

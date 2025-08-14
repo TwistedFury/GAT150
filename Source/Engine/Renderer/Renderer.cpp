@@ -40,9 +40,9 @@ namespace swaws {
     /// <param name="width">The width of the window in pixels.</param>
     /// <param name="height">The height of the window in pixels.</param>
     /// <returns>True if the window and renderer were successfully created; false otherwise.</returns>
-    bool Renderer::CreateWindow(const std::string& name, int width, int height)
+    bool Renderer::CreateWindow(const std::string& name, int width, int height, bool fullscreen)
     {
-        m_window = SDL_CreateWindow(name.c_str(), width, height, 0);
+        m_window = SDL_CreateWindow(name.c_str(), width, height, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
         if (m_window == nullptr) {
             Logger::Error("SDL_CreateWindow Error: {}", SDL_GetError());
             SDL_Quit();
@@ -59,6 +59,8 @@ namespace swaws {
 
         windowWidth = width;
         windowHeight = height;
+
+        SDL_SetRenderLogicalPresentation(m_renderer, windowWidth, windowHeight, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
         return true;
     }

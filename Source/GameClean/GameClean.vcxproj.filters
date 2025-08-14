@@ -11,6 +11,9 @@
     <Filter Include="Source Files\Game\Projectiles">
       <UniqueIdentifier>{3ddbc4f6-6889-419c-bcfd-8d6645bb4ebd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{bc4e766e-09c7-4e90-8728-371b0ae06eb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

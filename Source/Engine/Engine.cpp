@@ -12,7 +12,7 @@ namespace swaws
 	{
 		renderer = std::make_unique<Renderer>();
 		renderer->Initialize();
-		renderer->CreateWindow("SWAWS Engine", 1280, 1024);
+		renderer->CreateWindow("SWAWS Engine", 1280, 1024, true);
 
 		audio = std::make_unique<AudioSystem>();
 		audio->InitializeAudio();
@@ -45,6 +45,7 @@ namespace swaws
 	/// </summary>
 	void Engine::Shutdown()
 	{
+		Resources().Clear();
 		// Typically reverse order of Initialize
 		particle->Shutdown();
 		input->Shutdown();

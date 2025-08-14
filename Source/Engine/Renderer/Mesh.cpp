@@ -1,10 +1,31 @@
 #pragma once
-#include "Model.h"
+#include "Mesh.h"
 #include "Renderer.h"
 
 namespace swaws
 {
-	void Model::Draw(Renderer& renderer, const vec2& position, float rotation, float scale)
+	bool Mesh::Load(const std::string filename)
+	{
+		std::string buffer;
+		if (!file::ReadTextFile(filename, buffer))
+		{
+			Logger::Error("Could not read file: {}", filename);
+		}
+
+		std::stringstream stream(buffer);
+
+		stream >> color;
+
+		vec2 vert;
+		while (stream >> vert)
+		{
+			m_verts.push_back(vert);
+		}
+
+		return true;
+	}
+
+	void Mesh::Draw(Renderer& renderer, const vec2& position, float rotation, float scale)
 	{
 		renderer.SetColor(color.r, color.g, color.b);
 
@@ -17,7 +38,7 @@ namespace swaws
 		}
 	}
 
-	void Model::Draw(Renderer& renderer, Transform& transform)
+	void Mesh::Draw(Renderer& renderer, Transform& transform)
 	{
 		Draw(renderer, transform.position, transform.rotation, transform.scale);
 	}
@@ -25,7 +46,7 @@ namespace swaws
 	/// <summary>
 	/// Calculates and sets the radius of the model as the maximum distance from the origin among its vertices.
 	/// </summary>
-	void Model::CalculateRadius()
+	void Mesh::CalculateRadius()
 	{
 		m_radius = 0;
 		for (auto& point : m_verts)

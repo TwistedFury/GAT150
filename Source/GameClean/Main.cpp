@@ -8,6 +8,11 @@ float rotate = 0;
 int main(int argc, char* argv[]) {
     // Set Directory
     swaws::file::SetCurrentDirectory("Assets");
+    swaws::Logger::Info("Current Directory {}", swaws::file::GetCurrentDirectory());
+
+    std::cout << argc << std::endl;
+
+    return 0;
 
     // Initialize Engine Systems
     swaws::GetEngine().Initialize();
