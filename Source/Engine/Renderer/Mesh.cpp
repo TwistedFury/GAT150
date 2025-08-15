@@ -28,6 +28,8 @@ namespace swaws
 	void Mesh::Draw(Renderer& renderer, const vec2& position, float rotation, float scale)
 	{
 		renderer.SetColor(color.r, color.g, color.b);
+		
+		if (m_verts.size() < 2) return; // Catch if there is only ONE vertice
 
 		for (int i = 0; i < m_verts.size() - 1; i++)
 		{

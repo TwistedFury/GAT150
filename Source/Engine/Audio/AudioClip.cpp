@@ -10,7 +10,10 @@ namespace swaws
 
 	bool AudioClip::Load(const std::string& filename,  AudioSystem& audioSystem)
 	{
-		FMOD_RESULT result = audioSystem.audio->createSound(filename.c_str(), FMOD_DEFAULT, 0, &sound);
+		bool loop = false;
+		if (filename == "sndtrack.wav") loop = true;
+		FMOD_MODE mode = loop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+		FMOD_RESULT result = audioSystem.audio->createSound(filename.c_str(), mode, 0, &sound);
 		if (!AudioSystem::CheckFMODResult(result)) return false;
 		return true;
 	}

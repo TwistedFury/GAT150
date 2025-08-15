@@ -139,6 +139,7 @@ namespace swaws {
 
         SDL_RenderTexture(m_renderer, texture.m_texture, NULL, &destRect);
     }
+
     void Renderer::DrawTexture(Texture& texture, float x, float y, float rot, float scale)
     {
         vec2 size = texture.GetSize();

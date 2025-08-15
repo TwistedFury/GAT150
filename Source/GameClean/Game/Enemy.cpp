@@ -48,9 +48,9 @@ void Enemy::Update(float dt)
     if (fireTimer <= 0 && playerSeen) {
         fireTimer = fireTime;
         
-        swaws::Transform transform{ this->transform.position, this->transform.rotation, 2.0f };
+        swaws::Transform transform{ this->transform.position, this->transform.rotation, 1.0f };
         auto rocket = std::make_unique<Rocket>(transform);
-        rocket->speed = 500.0f;
+        rocket->speed = 200;
         rocket->lifespan = 1.5f;
         rocket->name = "rocket";
         rocket->tag = "enemy";
@@ -58,7 +58,7 @@ void Enemy::Update(float dt)
         // Components
         auto sr = std::make_unique<swaws::SpriteRenderer>();
         sr->textureName = "spaceship-sprites/projectiles/projectile05-1.png";
-
+        
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.0f; // Set Damping for rocket
 

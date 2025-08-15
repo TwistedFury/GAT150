@@ -20,11 +20,6 @@ bool SpaceGame::Initialize()
     m_livesText = std::make_unique<swaws::Text>(swaws::Resources().GetWithID<swaws::Font>("uiF", "8bitOperatorPlus8-Regular.ttf", 48));
     m_pressSpace = std::make_unique<swaws::Text>(swaws::Resources().GetWithID<swaws::Font>("titleF", "8bitOperatorPlus8-Regular.ttf", 64));
 
-    // Initialize Laser Points
-    GameData::laserPoints = std::vector<swaws::vec2>{
-    { 0, 0 },
-    { (float)swaws::GetEngine().GetRenderer().GetWindowWidth(), 0}
-    };
     swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("sndtrack.wav", swaws::GetEngine().GetAudio()));
 
     return true;
@@ -49,16 +44,20 @@ void SpaceGame::Update(float dt)
     {
         scene->RemoveAllActors();
         //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
-        swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 5);
+        swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 1);
         std::unique_ptr<Player> player = std::make_unique<Player>(transform);
 
         player->speed = 1500; // Set player Speed
+        player->maxSpeed = 2000;
         player->rotationRate = 180; // Set Rotation Rate
         player->tag = "player";
         player->name = "player";
 
-        auto mr = std::make_unique<swaws::MeshRenderer>();
-        mr->meshName = "spaceship-sprites/blue_01.png";
+        //auto mr = std::make_unique<swaws::MeshRenderer>();
+        //mr->meshName = "spaceship-sprites/blue_01.png";
+
+        auto sr = std::make_unique<swaws::SpriteRenderer>();
+        sr->textureName = "spaceship-sprites/blue_01.png";
 
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.5f; // Set Damping for player
@@ -67,7 +66,7 @@ void SpaceGame::Update(float dt)
         collider->radius = 60;
 
         // Add Components to Player
-        player->AddComponent(std::move(mr));
+        player->AddComponent(std::move(sr));
         player->AddComponent(std::move(rb));
         player->AddComponent(std::move(collider));
 
@@ -208,14 +207,14 @@ void SpaceGame::SpawnEnemy()
     {
         // Spawn @ Random Position away from Player
         swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
-        swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 5};
+        swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1};
         std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);
 
-        //auto sr = std::make_unique<swaws::SpriteRenderer>();
-        //sr->textureName = "spaceship-sprites/large-blue-02.png";
+        auto sr = std::make_unique<swaws::SpriteRenderer>();
+        sr->textureName = "spaceship-sprites/large_blue_02.png";
 
-        auto mr = std::make_unique<swaws::MeshRenderer>();
-        mr->meshName = "spaceship-sprites/large-blue-02.png";
+        //auto mr = std::make_unique<swaws::MeshRenderer>();
+        //mr->meshName = "spaceship-sprites/large_blue_02.png";
 
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.5f; // Set Damping for enemy
@@ -223,13 +222,14 @@ void SpaceGame::SpawnEnemy()
         auto collider = std::make_unique<swaws::CircleCollider2D>();
         collider->radius = 60;
 
-        enemy->speed = (swaws::random::getReal() * 200) + 100;
+        enemy->speed = (swaws::random::getReal() * 100) + 100;
+        enemy->maxSpeed = (swaws::random::getReal() * 100) + 300;
         enemy->tag = "enemy";
         enemy->fireTime = 2;
         enemy->fireTimer = 5;
 
         // Add Components
-        enemy->AddComponent(std::move(mr));
+        enemy->AddComponent(std::move(sr));
         enemy->AddComponent(std::move(rb));
         enemy->AddComponent(std::move(collider));
 

@@ -32,6 +32,5 @@ void Rocket::OnCollision(Actor* other)
     {
         destroyed = true;
     }
-    std::cout << other->tag << std::endl;
 }
 

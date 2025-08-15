@@ -17,7 +17,7 @@ void Player::Update(float dt)
     {
         if (rb->velocity.Normalized().x != 0)
         {
-            float offsetDistance = -GetRadius() + 10;
+            float offsetDistance = -25;
             swaws::vec2 offset = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation)) * offsetDistance;
 
             swaws::Particle particle;
@@ -44,7 +44,7 @@ void Player::Update(float dt)
 
     swaws::vec2 direction{ 1, 0 };
     swaws::vec2 force = direction.Rotate(swaws::math::DegToRad(transform.rotation)) * thrust * speed;
-
+    rb->velocity += force * dt;
     // Max Speed Verification
     if (rb)
     {
@@ -59,7 +59,7 @@ void Player::Update(float dt)
 
     std::unique_ptr<Rocket> rocket;
     std::unique_ptr<Laser> laser;
-    swaws::Transform transform(this->transform.position, this->transform.rotation, 5);
+    swaws::Transform transform(this->transform.position, this->transform.rotation, 1);
     
     // Check for Rocket Fire
     if ((swaws::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_E) || swaws::GetEngine().GetInput().GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left)) && fireTimer <= 0)
@@ -71,13 +71,13 @@ void Player::Update(float dt)
         {
             // Spawn rocket in direction facing
             rocket = std::make_unique<Rocket>(transform);
-            rocket->speed = 750; // Set Speed
+            rocket->speed = 300; // Set Speed
             rocket->lifespan = 1.5f;
             rocket->tag = "player"; // Set Tag
             rocket->name = "rocket";
 
-            auto mr = std::make_unique<swaws::MeshRenderer>();
-            mr->meshName = "spaceship-sprites/Projectiles/missile-1.png";
+            auto sr = std::make_unique<swaws::SpriteRenderer>();
+            sr->textureName = "spaceship-sprites/Projectiles/missile-1.png";
 
             auto rb = std::make_unique<swaws::RigidBody>();
             rb->damping = 0.0f; // Set Damping for rocket
@@ -85,7 +85,7 @@ void Player::Update(float dt)
             auto collider = std::make_unique<swaws::CircleCollider2D>();
             collider->radius = 20;
 
-            rocket->AddComponent(std::move(mr));
+            rocket->AddComponent(std::move(sr));
             rocket->AddComponent(std::move(rb));
             rocket->AddComponent(std::move(collider));
 
@@ -101,18 +101,19 @@ void Player::Update(float dt)
             laser->tag = "player";
             laser->name = "laser";
 
+            auto sr = std::make_unique<swaws::SpriteRenderer>();
+            sr->textureName = "spaceship-sprites/projectiles/projectile03-1.png";
+
             auto rb = std::make_unique<swaws::RigidBody>();
             rb->damping = 0.0f; // Set Damping for laser
 
-            auto mr = std::make_unique<swaws::MeshRenderer>();
-            mr->meshName = "spaceship-sprites/projectiles/projectile03-1.png";
-
-            //auto collider = std::make_unique<swaws::StraightCollider2D>();
+            auto collider = std::make_unique<swaws::CircleCollider2D>();
             //collider->radius = swaws::GetEngine().GetRenderer().GetWindowWidth();
+            collider->radius = 20;
 
-            rocket->AddComponent(std::move(mr));
-            rocket->AddComponent(std::move(rb));
-            //rocket->AddComponent(std::move(collider));
+            laser->AddComponent(std::move(sr));
+            laser->AddComponent(std::move(rb));
+            laser->AddComponent(std::move(collider));
 
             scene->AddActor(std::move(laser));
             swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("laser.mp3", swaws::GetEngine().GetAudio()));
