@@ -57,7 +57,7 @@ void Enemy::Update(float dt)
 
         // Components
         auto sr = std::make_unique<swaws::SpriteRenderer>();
-        sr->textureName = "NoFileNamePlsUpdate";
+        sr->textureName = "spaceship-sprites/projectiles/projectile05-1.png";
 
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.0f; // Set Damping for rocket

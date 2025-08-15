@@ -85,7 +85,7 @@ namespace swaws::file
             return false;
         }
         // Print file content
-        std::cout << content << '\n';
+        //std::cout << content << '\n';
         return true;
     }
 

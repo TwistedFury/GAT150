@@ -215,7 +215,7 @@ void SpaceGame::SpawnEnemy()
         //sr->textureName = "spaceship-sprites/large-blue-02.png";
 
         auto mr = std::make_unique<swaws::MeshRenderer>();
-        mr->meshName = "enemyMeshNotHad";
+        mr->meshName = "spaceship-sprites/large-blue-02.png";
 
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.5f; // Set Damping for enemy

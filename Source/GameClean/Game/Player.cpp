@@ -77,7 +77,7 @@ void Player::Update(float dt)
             rocket->name = "rocket";
 
             auto mr = std::make_unique<swaws::MeshRenderer>();
-            mr->meshName = "NoFileNamePlsUpdate";
+            mr->meshName = "spaceship-sprites/Projectiles/missile-1.png";
 
             auto rb = std::make_unique<swaws::RigidBody>();
             rb->damping = 0.0f; // Set Damping for rocket
@@ -105,7 +105,7 @@ void Player::Update(float dt)
             rb->damping = 0.0f; // Set Damping for laser
 
             auto mr = std::make_unique<swaws::MeshRenderer>();
-            mr->meshName = "NoFileNamePlsUpdate";
+            mr->meshName = "spaceship-sprites/projectiles/projectile03-1.png";
 
             //auto collider = std::make_unique<swaws::StraightCollider2D>();
             //collider->radius = swaws::GetEngine().GetRenderer().GetWindowWidth();
