@@ -112,7 +112,7 @@ void SpaceGame::Update(float dt)
             if (m_lives == 0)
             {
                 m_stateTimer = 3;
-                swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("gameOver.wav", swaws::GetEngine().GetAudio()));
+                swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("gameOver_pacman.wav", swaws::GetEngine().GetAudio()));
                 m_gameState = GameState::GameOver;
             }
             else m_gameState = GameState::StartRound;
