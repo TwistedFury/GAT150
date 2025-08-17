@@ -3,6 +3,8 @@
 #include <rapidjson/document.h>
 #include <string>
 
+#define JSON_READ(value, data) swaws::json::Read(value, #data, data)
+
 namespace swaws::json
 {
 	bool Load(const std::string& filename, rapidjson::Document& document);

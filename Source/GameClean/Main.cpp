@@ -8,37 +8,37 @@ int main(int argc, char* argv[]) {
     swaws::file::SetCurrentDirectory("Assets");
     swaws::Logger::Info("Current Directory {}", swaws::file::GetCurrentDirectory());
 
-    //// load the json data from a file
-    //std::string buffer;
-    //swaws::file::ReadTextFile("json.txt", buffer);
-    //// show the contents of the json file (debug)
-    //std::cout << buffer << std::endl;
+    // load the json data from a file
+    std::string buffer;
+    swaws::file::ReadTextFile("json.txt", buffer);
+    // show the contents of the json file (debug)
+    std::cout << buffer << std::endl;
 
-    //// create json document from the json file contents
-    //rapidjson::Document document;
-    //swaws::json::Load("json.txt", document);
+    // create json document from the json file contents
+    rapidjson::Document document;
+    swaws::json::Load("json.txt", document);
 
-    //// read/show the data from the json file
-    //std::string name;
-    //int age;
-    //float speed;
-    //bool isAwake;
-    //swaws::vec2 position;
-    //swaws::vec3 color;
+    // read/show the data from the json file
+    std::string name;
+    int age;
+    float speed;
+    bool isAwake;
+    swaws::vec2 position;
+    swaws::vec3 color;
 
-    //// read the json data
-    //swaws::json::Read(document, "name", name);
-    //swaws::json::Read(document, "age", age);
-    //swaws::json::Read(document, "speed", speed);
-    //swaws::json::Read(document, "isAwake", isAwake);
-    //swaws::json::Read(document, "position", position);
-    //swaws::json::Read(document, "color", color);
+    // read the json data
+    JSON_READ(document, name);
+    JSON_READ(document, age);
+    JSON_READ(document, speed);
+    JSON_READ(document, isAwake);
+    JSON_READ(document, position);
+    JSON_READ(document, color);
 
-    //// show the data
-    //std::cout << name << " " << age << " " << speed << " " << isAwake << std::endl;
-    //std::cout << position.x << " " << position.y << std::endl;
-    //std::cout << color.r << " " << color.g << " " << color.b << " " << std::endl;
-    //return 0;
+    // show the data
+    std::cout << name << " " << age << " " << speed << " " << isAwake << std::endl;
+    std::cout << position.x << " " << position.y << std::endl;
+    std::cout << color.r << " " << color.g << " " << color.b << " " << std::endl;
+    return 0;
 
     // Initialize Engine Systems
     swaws::GetEngine().Initialize();
