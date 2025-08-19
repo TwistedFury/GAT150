@@ -2,6 +2,8 @@
 
 namespace swaws
 {
+	FACTORY_REGISTER(RigidBody)
+
 	void RigidBody::Update(float dt)
 	{
 		// Larger effect on damping speed with std::exp

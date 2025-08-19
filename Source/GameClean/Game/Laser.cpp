@@ -3,15 +3,17 @@
 #include "Laser.h"
 #include "Player.h"
 
+FACTORY_REGISTER(Laser)
+
 void Laser::Update(float dt)
 {
-    Player* player = dynamic_cast<Player*>(scene->GetActorByName("player"));
-    if (player)
-    {
-        transform = player->transform;
-        lifespan -= dt;
-        if (lifespan <= 0) destroyed = true;
-    }
+    //Player* player = dynamic_cast<Player*>(scene->GetActorByName("player"));
+    //if (player)
+    //{
+    //    transform = player->transform;
+    //    lifespan -= dt;
+    //    if (lifespan <= 0) destroyed = true;
+    //}
 }
 
 void Laser::OnCollision(Actor* other)
@@ -26,7 +28,7 @@ void Laser::OnCollision(Actor* other)
     }
 }
 
-float Laser::GetRadius()
-{
-    return 2 * transform.scale * 0.9f;
-}
+//float Laser::GetRadius()
+//{
+//    return 2 * transform.scale * 0.9f;
+//}

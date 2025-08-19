@@ -1,10 +1,10 @@
 #pragma once
-#include "Framework/Actor.h"
+#include "Framework/Component.h"
 #include "Renderer/Renderer.h"
 #include "Engine.h"
 #include <iostream>
 
-class Laser : public swaws::Actor
+class Laser : public swaws::Component
 {
 public:
 	bool pierce{ false };
@@ -12,17 +12,17 @@ public:
 public:
 	Laser() = default;
 
-	Laser(const swaws::Transform& transform) :
-		swaws::Actor{ transform } 
-	{
-		length = (float)swaws::GetEngine().GetRenderer().GetWindowWidth();
-	}
+	//Laser(const swaws::Transform& transform) :
+	//	swaws::Actor{ transform } 
+	//{
+	//	length = (float)swaws::GetEngine().GetRenderer().GetWindowWidth();
+	//}
 
 	void Update(float dt) override;
 
-	void OnCollision(Actor* other) override;
+	void OnCollision(class Actor* other);
 
-	float GetRadius() override;
+	//float GetRadius() override;
 
 private:
 };

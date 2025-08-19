@@ -2,6 +2,8 @@
 #include "Renderer/Renderer.h"
 namespace swaws
 {
+	FACTORY_REGISTER(SpriteRenderer)
+
 	void SpriteRenderer::Update(float dt)
 	{
 		//

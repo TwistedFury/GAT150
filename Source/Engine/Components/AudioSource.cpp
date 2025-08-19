@@ -5,6 +5,8 @@
 
 namespace swaws
 {
+	FACTORY_REGISTER(AudioSource)
+
 	void swaws::AudioSource::Update(float dt)
 	{
 		//

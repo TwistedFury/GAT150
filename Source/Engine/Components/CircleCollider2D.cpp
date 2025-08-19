@@ -2,6 +2,8 @@
 
 namespace swaws
 {
+    FACTORY_REGISTER(CircleCollider2D)
+
     void CircleCollider2D::Update(float dt)
     {
         //

@@ -3,6 +3,8 @@
 
 namespace swaws
 {
+	FACTORY_REGISTER(MeshRenderer)
+
 	void swaws::MeshRenderer::Update(float dt)
 	{
 		//

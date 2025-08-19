@@ -3,6 +3,17 @@
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
 
+#define FACTORY_REGISTER(classname) \
+class Register##classname           \
+{                                   \
+public:                             \
+    Register##classname()           \
+    {                               \
+        swaws::Factory::Instance().Register<classname>(#classname); \
+    }                               \
+};                                  \
+Register##classname register_instance;
+
 int main(int argc, char* argv[]) {
     // Set Directory
     swaws::file::SetCurrentDirectory("Assets");

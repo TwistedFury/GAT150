@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Framework/Actor.h" 
+#include "Framework/Component.h" 
 
-class Player : public swaws::Actor
+class Player : public swaws::Component
 {
 public:
 	float rotationRate = 180;
@@ -19,12 +19,12 @@ public:
 public:
 	Player() = default;
 	
-	Player(const swaws::Transform& transform) :
-		swaws::Actor{ transform } { }
+	//Player(const swaws::Transform& transform) :
+	//	swaws::Actor{ transform } { }
 
 	void Update(float dt) override;
 
-	void OnCollision(Actor* other) override;
+	void OnCollision(class Actor* other);
 
 	void SelectWeapon(Weapon weapon);
 

@@ -15,9 +15,11 @@ namespace swaws
 		void Clear() { m_resources.clear(); }
 
 		template <typename T, typename ... Args>
+		requires std::derived_from<T, Resource>
 		res_t<T> Get(const std::string& name, Args&& ... args);
 
 		template <typename T, typename ... Args>
+		requires std::derived_from<T, Resource>
 		res_t<T> GetWithID(const std::string& id, const std::string& name, Args&& ... args);
 
 	private:
@@ -28,12 +30,14 @@ namespace swaws
 	};
 
 	template<typename T, typename ... Args>
+	requires std::derived_from<T, Resource>
 	inline res_t<T> ResourceManager::Get(const std::string& name, Args&& ... args)
 	{
 		return GetWithID<T>(name, name, std::forward<Args>(args)...);
 	}
 
 	template<typename T, typename ... Args>
+	requires std::derived_from<T, Resource>
 	inline res_t<T> ResourceManager::GetWithID(const std::string& id, const std::string& name, Args&& ...args)
 	{
 		std::string key = tolower(id);

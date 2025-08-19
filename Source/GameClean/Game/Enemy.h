@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Framework/Actor.h" 
+#include "Framework/Component.h" 
 
-class Enemy : public swaws::Actor
+class Enemy : public swaws::Component
 {
 public:
 	float fireTime{ 0 };
@@ -11,12 +11,12 @@ public:
 public:
 	Enemy() = default;
 
-	Enemy(const swaws::Transform& transform) :
-		swaws::Actor{ transform } { }
+	//Enemy(const swaws::Transform& transform) :
+	//	swaws::Actor{ transform } { }
 
 	void Update(float dt) override;
 
-	void OnCollision(Actor* other) override;
+	void OnCollision(class Actor* other);
 
 private:
 	
