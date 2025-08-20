@@ -4,15 +4,18 @@
 #include <string>
 #include <list>
 #include <memory>
+#include "Core/Serializable.h"
 #include "Core/StringHelper.h"
 
 namespace swaws
 {
 	class Game;
-	class Scene
+	class Scene : public Serializable
 	{
 	public:
 		Scene(Game* game) : m_game{ game } {}
+
+		void Read(const json::value_t& value) override;
 
 		void Update(float dt);
 		void Draw(class Renderer& renderer);

@@ -12,17 +12,9 @@ public:
 public:
 	Laser() = default;
 
-	//Laser(const swaws::Transform& transform) :
-	//	swaws::Actor{ transform } 
-	//{
-	//	length = (float)swaws::GetEngine().GetRenderer().GetWindowWidth();
-	//}
-
 	void Update(float dt) override;
 
-	void OnCollision(class Actor* other);
-
-	//float GetRadius() override;
+	void OnCollision(class swaws::Actor* other);
 
 private:
 };

@@ -17,9 +17,6 @@ namespace swaws
 		std::string tag;
 
 		float speed = 200;
-		float maxSpeed = 200;
-
-		float length{ 0 }; // USED FOR STRAIGHT OBJECTS LIKE LASERS
 
 		bool destroyed{ false };
 		float lifespan{ 0 };
@@ -31,6 +28,8 @@ namespace swaws
 		Actor(const Transform& transform) :
 			transform{ transform }
 		{ }
+
+		void Read(const json::value_t& value) override;
 
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
@@ -47,7 +46,7 @@ namespace swaws
 		/// <returns>The radius as a floating-point value.</returns>
 		virtual float GetRadius();
 
-		virtual void OnCollision(Actor* other) = 0;
+		virtual void OnCollision(Actor* other) {}
 
 		// Components
 		void AddComponent(std::unique_ptr<Component> component);

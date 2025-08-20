@@ -1,0 +1,25 @@
+{
+  "actors": [
+    {
+      "name": "sprite",
+      "tag": "placeholder",
+      "lifespan": 4,
+      "transform": {
+        "position": [ 400, 300 ],
+        "rotation": 0,
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "Placeholder.jpg"
+        }
+      ]
+    },
+    {
+
+    }
+  ]
+
+
+}

@@ -9,11 +9,8 @@ class Rocket : public swaws::Component
 public:
 	Rocket() = default;
 
-	//Rocket(const swaws::Transform& transform) :
-	//	swaws::Actor{ transform } {}
-
 	void Update(float dt) override;
 
-	void OnCollision(class Actor* other);
+	void OnCollision(class swaws::Actor* other);
 
 };

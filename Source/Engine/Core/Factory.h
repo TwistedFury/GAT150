@@ -78,7 +78,12 @@ namespace swaws
 	{
 		std::string key = tolower(name);
 		auto it = registry.find(key);
-		if (it != registry.end()) return it->second->Create();
+		if (it != registry.end()) {
+			auto object =  it->second->Create();
+			T* derived = dynamic_cast<T*>(object.get());
+			if (derived) return std::unique_ptr<T>(derived);
+			else Logger::Error("Registry contains name: {}, but incorrect type was provided: {}", key, typeid(T).name());
+		}
 		Logger::Error("Registry does not contain name: {}", key);
 		return nullptr;
 	}

@@ -18,13 +18,10 @@ public:
 	};
 public:
 	Player() = default;
-	
-	//Player(const swaws::Transform& transform) :
-	//	swaws::Actor{ transform } { }
 
 	void Update(float dt) override;
 
-	void OnCollision(class Actor* other);
+	void OnCollision(class swaws::Actor* other);
 
 	void SelectWeapon(Weapon weapon);
 

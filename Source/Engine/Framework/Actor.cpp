@@ -4,6 +4,8 @@
 
 namespace swaws
 {
+	FACTORY_REGISTER(Actor)
+
 	/// <summary>
 	/// Updates the actor's position and velocity based on the elapsed time and damping.
 	/// </summary>
@@ -57,5 +59,14 @@ namespace swaws
 		// REMNANT MOMENT
 		component->owner = this;
 		m_components.push_back(std::move(component));
+	}
+
+	void Actor::Read(const json::value_t& value)
+	{
+		Object::Read(value);
+		JSON_READ(value, tag);
+		JSON_READ(value, speed);
+		JSON_READ(value, lifespan);
+		if (JSON_HAS(value, transform)) transform.Read(JSON_GET(value, transform));
 	}
 }

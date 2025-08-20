@@ -10,4 +10,11 @@ namespace swaws
 		owner->transform.position += velocity * dt;
 		velocity *= std::exp(-damping * dt);
 	}
+
+	void RigidBody::Read(const json::value_t& value)
+	{
+		Object::Read(value);
+		JSON_READ(value, velocity);
+		JSON_READ(value, damping);
+	}
 }

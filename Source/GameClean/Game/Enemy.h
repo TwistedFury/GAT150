@@ -11,12 +11,8 @@ public:
 public:
 	Enemy() = default;
 
-	//Enemy(const swaws::Transform& transform) :
-	//	swaws::Actor{ transform } { }
-
 	void Update(float dt) override;
-
-	void OnCollision(class Actor* other);
+	void OnCollision(class swaws::Actor* other);
 
 private:
 	

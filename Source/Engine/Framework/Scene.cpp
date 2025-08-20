@@ -3,9 +3,21 @@
 #include "Engine.h"
 #include "Renderer/Renderer.h"
 #include "Components/ColliderComponent.h"
+#include "Scene.h"
 
 namespace swaws
 {
+	void Scene::Read(const json::value_t& value)
+	{
+		for (auto& actorVal : value["actors"].GetArray())
+		{
+			auto actor = Factory::Instance().Create<Actor>("Actor");
+			actor->Read(actorVal);
+
+			AddActor(std::move(actor));
+		}
+	}
+
 	static bool LineCircleCollision(const swaws::vec2& lineStart, const swaws::vec2& lineEnd, const swaws::vec2& circleCenter, float circleRadius) {
 		swaws::vec2 lineVec = lineEnd - lineStart;
 		swaws::vec2 toCircle = circleCenter - lineStart;
@@ -54,6 +66,7 @@ namespace swaws
 
 				// TODO: Make into Straight Line Collision
 				// Straight-Line Collision Checks (Sight Checks?)
+				/*
 				if (actorA->name == "laser") {
 					vec2 laserStart = actorA->transform.position;
 					vec2 laserDir = vec2{ 1, 0 }.Rotate(math::DegToRad(actorA->transform.rotation));
@@ -67,6 +80,7 @@ namespace swaws
 						actorB->OnCollision(actorA.get());
 					}
 				}
+				*/
 			}
 		}
 	}
@@ -97,5 +111,4 @@ namespace swaws
 	{
 		m_actors.clear();
 	}
-
 }

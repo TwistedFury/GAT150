@@ -79,23 +79,23 @@ void Enemy::Update(float dt)
 }
 
 
-void Enemy::OnCollision(Actor* other)
+void Enemy::OnCollision(swaws::Actor* other)
 {
-    //if (tag != other->tag)
-    //{
-    //    destroyed = true;
-    //    scene->GetGame()->AddPoints(100);
-    //    // Explosion Particles
-    //    for (int i = 0; i < 100; i++)
-    //    {
-    //        swaws::Particle particle;
-    //        particle.position = transform.position;
-    //        particle.velocity = swaws::vec2{ swaws::random::getReal(-200.0f, 200.0f), swaws::random::getReal(-200.0f, 200.0f) };
-    //        particle.color = swaws::vec3{ 1, 1, 1 };
-    //        particle.lifespan = 2;
+    if (owner->tag != other->tag)
+    {
+        owner->destroyed = true;
+        owner->scene->GetGame()->AddPoints(100);
+        // Explosion Particles
+        for (int i = 0; i < 100; i++)
+        {
+            swaws::Particle particle;
+            particle.position = owner->transform.position;
+            particle.velocity = swaws::vec2{ swaws::random::getReal(-200.0f, 200.0f), swaws::random::getReal(-200.0f, 200.0f) };
+            particle.color = swaws::vec3{ 1, 1, 1 };
+            particle.lifespan = 2;
 
-    //        swaws::GetEngine().GetPS().AddParticle(particle);
-    //    }
-    //    swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
-    //}
+            swaws::GetEngine().GetPS().AddParticle(particle);
+        }
+        swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
+    }
 }

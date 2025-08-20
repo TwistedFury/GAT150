@@ -129,14 +129,14 @@ void Player::Update(float dt)
     //Actor::Update(dt);
 }
 
-void Player::OnCollision(Actor* other)
+void Player::OnCollision(swaws::Actor* other)
 {
-    //if (tag != other->tag)
-    //{
-    //    destroyed = true;
-    //    dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
-    //    swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
-    //}
+    if (owner->tag != other->tag)
+    {
+        owner->destroyed = true;
+        dynamic_cast<SpaceGame*>(owner->scene->GetGame())->OnPlayerDeath();
+        swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
+    }
 }
 
 /// <summary>

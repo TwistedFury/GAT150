@@ -23,7 +23,7 @@ public:
 	bool Initialize() override;
 	void Update(float dt) override;
 	void Shutdown() override;
-	void Draw(class swaws::Renderer& renderer) override;
+	void Draw(swaws::Renderer& renderer) override;
 
 	void OnPlayerDeath();
 private:

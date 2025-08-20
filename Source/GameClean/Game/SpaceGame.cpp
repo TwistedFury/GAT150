@@ -5,9 +5,16 @@
 #include "Enemy.h"
 #include "GameData.h"
 
+#include "Renderer/Renderer.h"
+
 bool SpaceGame::Initialize()
 {
     scene = std::make_unique<swaws::Scene>(this);
+
+    swaws::json::document_t document;
+    swaws::json::Load("scene.json", document);
+
+    scene->Read(document);
 
     //m_titleFont = std::make_shared<swaws::Font>();
     //m_titleFont->Load("8bitOperatorPlus8-Regular.ttf", 64);
@@ -42,19 +49,20 @@ void SpaceGame::Update(float dt)
         break;
     case SpaceGame::GameState::StartRound:
     {
+        /*
         scene->RemoveAllActors();
         //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
         swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 1);
         std::unique_ptr<Player> player = std::make_unique<Player>(transform);
 
-        //player->speed = 1500; // Set player Speed
-        //player->maxSpeed = 2000;
-        //player->rotationRate = 180; // Set Rotation Rate
-        //player->tag = "player";
-        //player->name = "player";
+        player->speed = 1500; // Set player Speed
+        player->maxSpeed = 2000;
+        player->rotationRate = 180; // Set Rotation Rate
+        player->tag = "player";
+        player->name = "player";
 
-        //auto mr = std::make_unique<swaws::MeshRenderer>();
-        //mr->meshName = "spaceship-sprites/blue_01.png";
+        auto mr = std::make_unique<swaws::MeshRenderer>();
+        mr->meshName = "spaceship-sprites/blue_01.png";
 
         auto sr = std::make_unique<swaws::SpriteRenderer>();
         sr->textureName = "spaceship-sprites/blue_01.png";
@@ -66,34 +74,35 @@ void SpaceGame::Update(float dt)
         collider->radius = 60;
 
         // Add Components to Player
-        //player->AddComponent(std::move(sr));
-        //player->AddComponent(std::move(rb));
-        //player->AddComponent(std::move(collider));
+        player->AddComponent(std::move(sr));
+        player->AddComponent(std::move(rb));
+        player->AddComponent(std::move(collider));
 
-        //scene->AddActor(std::move(player));
+        scene->AddActor(std::move(player));
         m_gameState = GameState::Game;
 
         // Set up UI Icons
         float scale = 5;
-        //std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
-        //std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 0.0f, 0.0f });
+        std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
+        std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 0.0f, 0.0f });
 
         swaws::Transform rITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (10 * scale), (20 * scale) }, 0, scale);
         swaws::Transform lITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (10 * scale), (40 * scale) }, 0, scale);
-        //std::unique_ptr<UIModel> rocketIconModel = std::make_unique<UIModel>(rITransform, rocketIcon);
-        //std::unique_ptr<UIModel> laserIconModel = std::make_unique<UIModel>(lITransform, laserIcon);
+        std::unique_ptr<UIModel> rocketIconModel = std::make_unique<UIModel>(rITransform, rocketIcon);
+        std::unique_ptr<UIModel> laserIconModel = std::make_unique<UIModel>(lITransform, laserIcon);
 
-        //rocketIconModel->speed = 0;
-        //laserIconModel->speed = 0;
+        rocketIconModel->speed = 0;
+        laserIconModel->speed = 0;
 
-        //rocketIconModel->tag = "ui";
-        //laserIconModel->tag = "ui";
+        rocketIconModel->tag = "ui";
+        laserIconModel->tag = "ui";
 
-        //rocketIconModel->name = "rocketIc";
-        //laserIconModel->name = "laserIc";
+        rocketIconModel->name = "rocketIc";
+        laserIconModel->name = "laserIc";
 
-        //scene->AddActor(std::move(rocketIconModel));
-        //scene->AddActor(std::move(laserIconModel));
+        scene->AddActor(std::move(rocketIconModel));
+        scene->AddActor(std::move(laserIconModel));
+        */
     }
         break;
     case SpaceGame::GameState::Game:
@@ -137,36 +146,41 @@ void SpaceGame::Update(float dt)
         Player* player = dynamic_cast<Player*>(scene->GetActorByName("player"));
         if (player)
         {
+            /*
             int weaponAmount = static_cast<int>(Player::Weapon::Count);
             int curWeapon = static_cast<int>(player->CurWeapon());
             player->SelectWeapon(static_cast<Player::Weapon>((curWeapon + 1) % weaponAmount));
 
-            //// With more weapons, this'll be longer
-            //switch (curWeapon)
-            //{
-            //case 0: // ROCKET -> LASER
-            //    scene->GetActorByName("rocketIc")->SetColor({ 1.0f, 0.0f, 0.0f });
-            //    scene->GetActorByName("laserIc")->SetColor({ 0.0f, 1.0f, 0.0f });
-            //    player->fireTime = 5;
-            //    break;
-            //case 1: // LASER -> ROCKET
-            //    scene->GetActorByName("laserIc")->SetColor({ 1.0f, 0.0f, 0.0f });
-            //    scene->GetActorByName("rocketIc")->SetColor({ 0.0f, 1.0f, 0.0f });
-            //    player->fireTime = 0.2f;
-            //    break;
-            //default:
-            //    break;
-            //}
+            // With more weapons, this'll be longer
+            switch (curWeapon)
+            {
+            case 0: // ROCKET -> LASER
+                scene->GetActorByName("rocketIc")->SetColor({ 1.0f, 0.0f, 0.0f });
+                scene->GetActorByName("laserIc")->SetColor({ 0.0f, 1.0f, 0.0f });
+                player->fireTime = 5;
+                break;
+            case 1: // LASER -> ROCKET
+                scene->GetActorByName("laserIc")->SetColor({ 1.0f, 0.0f, 0.0f });
+                scene->GetActorByName("rocketIc")->SetColor({ 0.0f, 1.0f, 0.0f });
+                player->fireTime = 0.2f;
+                break;
+            default:
+                break;
+            }
+            */
         }
     }
     scene->Update(swaws::GetEngine().GetTime().GetDeltaTime());
 }
 
+/*
 void SpaceGame::Shutdown()
 {
     //
 }
+*/
 
+/*
 void SpaceGame::Draw(swaws::Renderer& renderer)
 {
     if (m_gameState == GameState::Title)
@@ -193,28 +207,32 @@ void SpaceGame::Draw(swaws::Renderer& renderer)
     scene->Draw(renderer);
     swaws::GetEngine().GetPS().Draw(renderer);
 }
+*/
 
+/*
 void SpaceGame::OnPlayerDeath()
 {
     m_gameState = GameState::PlayerDead;
     m_stateTimer = 2;
 }
+*/
 
+/*
 void SpaceGame::SpawnEnemy()
 {   
     Player* player = scene->GetActorByName<Player>("player");
     if (player)
     {
         // Spawn @ Random Position away from Player
-        //swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
-        //swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1};
-        //std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);
+        swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
+        swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1};
+        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);
 
         auto sr = std::make_unique<swaws::SpriteRenderer>();
         sr->textureName = "spaceship-sprites/large_blue_02.png";
 
-        //auto mr = std::make_unique<swaws::MeshRenderer>();
-        //mr->meshName = "spaceship-sprites/large_blue_02.png";
+        auto mr = std::make_unique<swaws::MeshRenderer>();
+        mr->meshName = "spaceship-sprites/large_blue_02.png";
 
         auto rb = std::make_unique<swaws::RigidBody>();
         rb->damping = 0.5f; // Set Damping for enemy
@@ -222,17 +240,18 @@ void SpaceGame::SpawnEnemy()
         auto collider = std::make_unique<swaws::CircleCollider2D>();
         collider->radius = 60;
 
-        //enemy->speed = (swaws::random::getReal() * 100) + 100;
-        //enemy->maxSpeed = (swaws::random::getReal() * 100) + 300;
-        //enemy->tag = "enemy";
-        //enemy->fireTime = 2;
-        //enemy->fireTimer = 5;
+        enemy->speed = (swaws::random::getReal() * 100) + 100;
+        enemy->maxSpeed = (swaws::random::getReal() * 100) + 300;
+        enemy->tag = "enemy";
+        enemy->fireTime = 2;
+        enemy->fireTimer = 5;
 
         // Add Components
-        //enemy->AddComponent(std::move(sr));
-        //enemy->AddComponent(std::move(rb));
-        //enemy->AddComponent(std::move(collider));
+        enemy->AddComponent(std::move(sr));
+        enemy->AddComponent(std::move(rb));
+        enemy->AddComponent(std::move(collider));
 
-        //scene->AddActor(std::move(enemy));
+        scene->AddActor(std::move(enemy));
     }
 }
+*/

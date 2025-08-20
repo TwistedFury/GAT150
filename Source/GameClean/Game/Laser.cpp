@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../GamePCH.h"
 #include "Laser.h"
 #include "Player.h"
 
@@ -16,7 +16,7 @@ void Laser::Update(float dt)
     //}
 }
 
-void Laser::OnCollision(Actor* other)
+void Laser::OnCollision(swaws::Actor* other)
 {
     if (pierce)
     {
@@ -27,8 +27,3 @@ void Laser::OnCollision(Actor* other)
 
     }
 }
-
-//float Laser::GetRadius()
-//{
-//    return 2 * transform.scale * 0.9f;
-//}

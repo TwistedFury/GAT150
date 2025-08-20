@@ -1,6 +1,8 @@
+#include "../GamePCH.h"
 #include "Rocket.h"
 #include "Enemy.h"
 #include "Player.h"
+
 
 FACTORY_REGISTER(Rocket)
 
@@ -28,11 +30,11 @@ void Rocket::Update(float dt)
     //Actor::Update(dt);
 }
 
-void Rocket::OnCollision(Actor* other)
+void Rocket::OnCollision(swaws::Actor* other)
 {
-    //if (other->tag != tag)
-    //{
-    //    destroyed = true;
-    //}
+    if (other->tag != owner->tag)
+    {
+        owner->destroyed = true;
+    }
 }
 
