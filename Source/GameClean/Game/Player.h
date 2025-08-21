@@ -5,8 +5,8 @@
 class Player : public swaws::Component
 {
 public:
+	float speed = 200;
 	float rotationRate = 180;
-
 	float fireTime = 0.2f;
 	float fireTimer = 0;
 
@@ -18,6 +18,8 @@ public:
 	};
 public:
 	Player() = default;
+
+	void Read(const swaws::json::value_t& value) override;
 
 	void Update(float dt) override;
 

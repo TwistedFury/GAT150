@@ -64,9 +64,25 @@ namespace swaws
 	void Actor::Read(const json::value_t& value)
 	{
 		Object::Read(value);
+
 		JSON_READ(value, tag);
-		JSON_READ(value, speed);
 		JSON_READ(value, lifespan);
+
 		if (JSON_HAS(value, transform)) transform.Read(JSON_GET(value, transform));
+
+		// Components
+		if (JSON_HAS(value, components))
+		{
+			for (auto& compVal : JSON_GET(value, components).GetArray())
+			{
+				std::string type;
+				JSON_READ(compVal, type);
+				auto component = Factory::Instance().Create<Component>(type);
+				component->Read(compVal);
+
+				AddComponent(std::move(component));
+			}
+		}
+		else Logger::Error("Actor does not contain \"components\": {}", name);
 	}
 }

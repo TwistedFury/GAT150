@@ -13,5 +13,7 @@ namespace swaws
 
 		bool CheckCollision(ColliderComponent& other) override;
 
+		void Read(const json::value_t& value) override;
+
 	};
 }

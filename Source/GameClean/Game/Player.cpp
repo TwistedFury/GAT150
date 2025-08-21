@@ -8,6 +8,15 @@
 
 FACTORY_REGISTER(Player)
 
+void Player::Read(const swaws::json::value_t& value)
+{
+    Object::Read(value);
+
+    JSON_READ(value, speed);
+    JSON_READ(value, rotationRate);
+    JSON_READ(value, fireTime);
+}
+
 void Player::Update(float dt)
 {
     //float angle = transform.rotation + swaws::random::getReal(-60.0f, 60.0f);

@@ -2,22 +2,73 @@
   "actors": [
     {
       "name": "sprite",
-      "tag": "placeholder",
+      "tag": "background",
       "lifespan": 4,
       "transform": {
-        "position": [ 400, 300 ],
+        "position": [ 640, 512 ],
         "rotation": 0,
         "scale": 1
       },
       "components": [
         {
           "type": "SpriteRenderer",
-          "textureName": "Placeholder.jpg"
+          "textureName": "background.png"
         }
       ]
     },
     {
-
+      "name": "player",
+      "tag": "player",
+      "transform": {
+        "position": [
+          640,
+          512
+        ],
+        "rotation": 30,
+        "scale": 2
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/blue_01.png"
+        },
+        {
+          "type": "RigidBody",
+          "damping": 1.5,
+          "velocity": [
+            30,
+            0
+          ]
+        },
+        {
+          "type": "CircleCollider2D",
+          "radius": 60
+        },
+        {
+          "type": "Player",
+          "speed": 200,
+          "rotationRate": 180,
+          "fireTime": 0.2
+        }
+      ]
+    },
+    {
+      "name": "rocket",
+      "tag": "player",
+      "transform": {
+        "position": [
+          600,
+          512
+        ],
+        "rotation": 0,
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "Rocket",
+          "speed": 250
+        }
+      ]
     }
   ]
 
