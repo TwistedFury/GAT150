@@ -9,9 +9,22 @@ namespace swaws
 {
 	void Scene::Read(const json::value_t& value)
 	{
+		// Read Prototypes
+		if (JSON_HAS(value, prototypes))
+		{
+			for (auto& actorVal : JSON_GET(value, prototypes).GetArray())
+			{
+				auto actor = Factory::Instance().Create<Actor>("Actor");
+				actor->Read(actorVal);
+
+				std::string name = actor->name;
+				Factory::Instance().RegisterPrototype<Actor>(name, std::move(actor));
+			}
+		}
+
 		if (JSON_HAS(value, actors))
 		{
-			for (auto& actorVal : JSON_GET(value, "actors").GetArray())
+			for (auto& actorVal : JSON_GET(value, actors).GetArray())
 			{
 				auto actor = Factory::Instance().Create<Actor>("Actor");
 				actor->Read(actorVal);
@@ -111,8 +124,17 @@ namespace swaws
 		m_actors.push_back(std::move(act));
 	}
 
-	void Scene::RemoveAllActors()
+	void Scene::RemoveAllActors(bool force)
 	{
-		m_actors.clear();
+		if (!force)
+		{
+			// Check Persistence
+			for (auto iter = m_actors.begin(); iter != m_actors.end();)
+			{
+				if (!(*iter)->persistent) iter = m_actors.erase(iter);
+				else iter++;
+			}
+		}
+		else m_actors.clear();
 	}
 }

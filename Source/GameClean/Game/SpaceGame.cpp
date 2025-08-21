@@ -49,8 +49,11 @@ void SpaceGame::Update(float dt)
         break;
     case SpaceGame::GameState::StartRound:
     {
-        /*
         scene->RemoveAllActors();
+        auto player = swaws::Instantiate("player");
+        scene->AddActor(std::move(player));
+
+        /*
         //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
         swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 1);
         std::unique_ptr<Player> player = std::make_unique<Player>(transform);
@@ -217,17 +220,19 @@ void SpaceGame::OnPlayerDeath()
 }
 */
 
-/*
+
 void SpaceGame::SpawnEnemy()
 {   
-    Player* player = scene->GetActorByName<Player>("player");
+    auto player = scene->GetActorByName<Player>("player")->owner;
     if (player)
     {
         // Spawn @ Random Position away from Player
         swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
         swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1};
-        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);
-
+        auto enemy = swaws::Instantiate("enemy", transform);
+        scene->AddActor(std::move(enemy));
+        
+        /*
         auto sr = std::make_unique<swaws::SpriteRenderer>();
         sr->textureName = "spaceship-sprites/large_blue_02.png";
 
@@ -252,6 +257,7 @@ void SpaceGame::SpawnEnemy()
         enemy->AddComponent(std::move(collider));
 
         scene->AddActor(std::move(enemy));
+        */
     }
 }
-*/
+

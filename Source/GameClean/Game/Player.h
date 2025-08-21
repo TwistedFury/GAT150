@@ -18,6 +18,7 @@ public:
 	};
 public:
 	Player() = default;
+	CLASS_PROTOTYPE(Player)
 
 	void Read(const swaws::json::value_t& value) override;
 

@@ -11,6 +11,7 @@ public:
 
 public:
 	Laser() = default;
+	CLASS_PROTOTYPE(Laser)
 
 	void Update(float dt) override;
 

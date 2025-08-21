@@ -30,7 +30,7 @@ namespace swaws::json
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, int& data, bool required = false) {
+    bool Read(const value_t& value, const std::string& name, int& data, bool required) {
         // check if the value has the "<name>" and the correct data type
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsInt()) {
             if (required) Logger::Error("Could not read Json value (int): {}.", name);
@@ -43,7 +43,7 @@ namespace swaws::json
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, float& data, bool required = false) {
+    bool Read(const value_t& value, const std::string& name, float& data, bool required) {
         // check if the value has the "<name>" and the correct data type
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsNumber()) {
             if (required) Logger::Error("Could not read Json value (float): {}.", name);
@@ -56,7 +56,7 @@ namespace swaws::json
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, bool& data, bool required = false) {
+    bool Read(const value_t& value, const std::string& name, bool& data, bool required) {
         // check if the value has the "<name>" and the correct data type
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsBool()) {
             if (required) Logger::Error("Could not read Json value (bool): {}.", name);
@@ -69,7 +69,7 @@ namespace swaws::json
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, std::string& data, bool required = false) {
+    bool Read(const value_t& value, const std::string& name, std::string& data, bool required) {
         // check if the value has the "<name>" and the correct data type
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsString()) {
             if (required) Logger::Error("Could not read Json value (string): {}.", name);
@@ -82,7 +82,7 @@ namespace swaws::json
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, vec2& data, bool required = false) {
+    bool Read(const value_t& value, const std::string& name, vec2& data, bool required) {
         // check if the value has the "<name>" and is an array with 2 elements
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || value[name.c_str()].Size() != 2) {
             if (required) Logger::Error("Could not read Json value (vec2): {}.", name);
@@ -103,7 +103,7 @@ namespace swaws::json
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, vec3& data, bool required = false) {
+    bool Read(const value_t& value, const std::string& name, vec3& data, bool required) {
         // check if the value has the "<name>" and is an array with 2 elements
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || value[name.c_str()].Size() != 3) {
             if (required) Logger::Error("Could not read Json value (vec3): {}.", name);

@@ -3,6 +3,7 @@
     {
       "name": "sprite",
       "tag": "background",
+      "persistent": true,
       "lifespan": 4,
       "transform": {
         "position": [ 640, 512 ],
@@ -67,6 +68,28 @@
         {
           "type": "Rocket",
           "speed": 250
+        }
+      ]
+    },
+    {
+      "name": "enemy",
+      "tag": "enemy",
+      "transform": {
+        "position": [
+          600,
+          512
+        ],
+        "rotation": 0,
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/large_blue_01.png"
+        },
+        {
+          "type": "Enemy",
+          "speed": 100
         }
       ]
     }

@@ -21,7 +21,7 @@ namespace swaws
 		void Draw(class Renderer& renderer);
 
 		void AddActor(std::unique_ptr<class Actor> act);
-		void RemoveAllActors();
+		void RemoveAllActors(bool force = false);
 
 		std::list<std::unique_ptr<class Actor>>& GetActors() { return m_actors; }
 

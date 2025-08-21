@@ -10,6 +10,7 @@ public:
 
 public:
 	Enemy() = default;
+	CLASS_PROTOTYPE(Enemy)
 
 	void Update(float dt) override;
 	void OnCollision(class swaws::Actor* other);

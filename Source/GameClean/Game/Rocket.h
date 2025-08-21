@@ -8,6 +8,7 @@ class Rocket : public swaws::Component
 {
 public:
 	Rocket() = default;
+	CLASS_PROTOTYPE(Rocket)
 
 	void Update(float dt) override;
 

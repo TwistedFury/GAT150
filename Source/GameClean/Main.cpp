@@ -3,53 +3,10 @@
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
 
-#define FACTORY_REGISTER(classname) \
-class Register##classname           \
-{                                   \
-public:                             \
-    Register##classname()           \
-    {                               \
-        swaws::Factory::Instance().Register<classname>(#classname); \
-    }                               \
-};                                  \
-Register##classname register_instance;
-
 int main(int argc, char* argv[]) {
     // Set Directory
     swaws::file::SetCurrentDirectory("Assets");
     swaws::Logger::Info("Current Directory {}", swaws::file::GetCurrentDirectory());
-
-    // load the json data from a file
-    std::string buffer;
-    swaws::file::ReadTextFile("json.txt", buffer);
-    // show the contents of the json file (debug)
-    std::cout << buffer << std::endl;
-
-    // create json document from the json file contents
-    rapidjson::Document document;
-    swaws::json::Load("json.txt", document);
-
-    // read/show the data from the json file
-    std::string name;
-    int age;
-    float speed;
-    bool isAwake;
-    swaws::vec2 position;
-    swaws::vec3 color;
-
-    // read the json data
-    JSON_READ(document, name);
-    JSON_READ(document, age);
-    JSON_READ(document, speed);
-    JSON_READ(document, isAwake);
-    JSON_READ(document, position);
-    JSON_READ(document, color);
-
-    // show the data
-    std::cout << name << " " << age << " " << speed << " " << isAwake << std::endl;
-    std::cout << position.x << " " << position.y << std::endl;
-    std::cout << color.r << " " << color.g << " " << color.b << " " << std::endl;
-    return 0;
 
     // Initialize Engine Systems
     swaws::GetEngine().Initialize();
@@ -71,6 +28,7 @@ int main(int argc, char* argv[]) {
                 quit = true;
             }
         }
+        // LOOP = INPUT, UPDATE, DRAW
 
         swaws::GetEngine().Update();
         game->Update(swaws::GetEngine().GetTime().GetDeltaTime());
@@ -90,6 +48,7 @@ int main(int argc, char* argv[]) {
 
         swaws::GetEngine().GetRenderer().Present();
 
+        // Check quit
         if (swaws::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
 
     }
