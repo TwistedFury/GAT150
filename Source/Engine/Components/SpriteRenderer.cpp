@@ -1,8 +1,16 @@
+#include "Engine.h"
 #include "SpriteRenderer.h"
 #include "Renderer/Renderer.h"
+
 namespace swaws
 {
 	FACTORY_REGISTER(SpriteRenderer)
+
+
+	void SpriteRenderer::Start()
+	{
+		texture = Resources().Get<Texture>(textureName, GetEngine().GetRenderer());
+	}
 
 	void SpriteRenderer::Update(float dt)
 	{
@@ -11,7 +19,6 @@ namespace swaws
 
 	void SpriteRenderer::Draw(Renderer& renderer)
 	{
-		auto texture = Resources().Get<Texture>(textureName, renderer);
 		if (texture)
 		{
 			renderer.DrawTexture

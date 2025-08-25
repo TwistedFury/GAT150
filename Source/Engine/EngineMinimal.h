@@ -26,6 +26,14 @@
 #include "Resources/Resource.h"
 #include "Resources/ResourceManager.h"
 
+// Physics
+#include "Physics/Collidable.h"
+
+// Events
+#include "Event/Event.h"
+#include "Event/EventManager.h"
+#include "Event/Observer.h"
+
 // Third-Party Libraries
 #include <fmod.hpp>
 #include <SDL3/SDL.h>

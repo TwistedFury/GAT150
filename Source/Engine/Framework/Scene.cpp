@@ -29,7 +29,7 @@ namespace swaws
 				auto actor = Factory::Instance().Create<Actor>("Actor");
 				actor->Read(actorVal);
 
-				AddActor(std::move(actor));
+				AddActor(std::move(actor), false);
 			}
 		}
 		else Logger::Error("Document does not contain \"actors\"");
@@ -56,12 +56,17 @@ namespace swaws
 			if (act->isActive) act->Update(dt);
 		}
 
-		// Remove Destroyed Actors
-		for (auto iter = m_actors.begin(); iter != m_actors.end();)
+		//// Remove Destroyed Actors
+		//for (auto iter = m_actors.begin(); iter != m_actors.end();)
+		//{
+		//	if ((*iter)->destroyed) iter = m_actors.erase(iter);
+		//	else iter++;
+		//}
+
+		std::erase_if(m_actors, [](auto& actor)
 		{
-			if ((*iter)->destroyed) iter = m_actors.erase(iter);
-			else iter++;
-		}
+			return (actor->destroyed);
+		});
 
 		// Check for collisions
 		for (auto& actorA : m_actors)
@@ -114,13 +119,29 @@ namespace swaws
 		}
 	}
 
+	bool Scene::Load(const std::string& sceneName)
+	{
+		swaws::json::document_t document;
+		if (swaws::json::Load(sceneName, document)) Read(document);
+		else {
+			Logger::Error("Scene {} not loaded properly", sceneName);
+			return false;
+		}
+
+		// Start Actors
+		for (auto& actor : m_actors) actor->Start();
+
+		return true;
+	}
+
 	/// <summary>
 	/// Adds an actor to the scene.
 	/// </summary>
 	/// <param name="act">A unique pointer to the actor to be added.</param>
-	void Scene::AddActor(std::unique_ptr<Actor> act)
+	void Scene::AddActor(std::unique_ptr<Actor> act, bool start)
 	{
 		act->scene = this;
+		if (start) act->Start();
 		m_actors.push_back(std::move(act));
 	}
 

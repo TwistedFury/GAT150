@@ -28,6 +28,24 @@ namespace swaws
 		}
 	}
 
+	void Actor::Start()
+	{
+		// Start components
+		for (auto& component : m_components)
+		{
+			component->Start();
+		}
+	}
+
+	void Actor::Destroy()
+	{
+		// Destroy components
+		for (auto& component : m_components)
+		{
+			component->Destroy();
+		}
+	}
+
 	/// <summary>
 	/// Draws the actor using the specified renderer.
 	/// </summary>
@@ -54,6 +72,11 @@ namespace swaws
 		return 50.0f; // (m_texture) ? (m_texture->GetSize().Length() * 0.5f) * transform.scale * 0.9f : 0;
 	}
 
+	void Actor::OnCollision(Actor* other)
+	{
+		auto collidables = GetComponents<Collidable>();
+		for (auto& collidable : collidables) collidable->OnCollision(other);
+	}
 
 	void Actor::AddComponent(std::unique_ptr<Component> component)
 	{

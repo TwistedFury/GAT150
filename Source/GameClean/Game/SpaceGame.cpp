@@ -10,11 +10,7 @@
 bool SpaceGame::Initialize()
 {
     scene = std::make_unique<swaws::Scene>(this);
-
-    swaws::json::document_t document;
-    swaws::json::Load("scene.json", document);
-
-    scene->Read(document);
+    scene->Load("scene.json");
 
     //m_titleFont = std::make_shared<swaws::Font>();
     //m_titleFont->Load("8bitOperatorPlus8-Regular.ttf", 64);
@@ -51,7 +47,7 @@ void SpaceGame::Update(float dt)
     {
         scene->RemoveAllActors();
         auto player = swaws::Instantiate("player");
-        scene->AddActor(std::move(player));
+        scene->AddActor(std::move(player), true);
 
         /*
         //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
@@ -230,7 +226,7 @@ void SpaceGame::SpawnEnemy()
         swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
         swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1};
         auto enemy = swaws::Instantiate("enemy", transform);
-        scene->AddActor(std::move(enemy));
+        scene->AddActor(std::move(enemy), true);
         
         /*
         auto sr = std::make_unique<swaws::SpriteRenderer>();

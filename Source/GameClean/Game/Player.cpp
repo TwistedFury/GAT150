@@ -138,6 +138,11 @@ void Player::Update(float dt)
     //Actor::Update(dt);
 }
 
+void Player::Start()
+{
+    rigidBody = owner->GetComponent<swaws::RigidBody>();
+}
+
 void Player::OnCollision(swaws::Actor* other)
 {
     if (owner->tag != other->tag)

@@ -12,5 +12,8 @@ namespace swaws
 		CLASS_PROTOTYPE(Component)
 
 		virtual void Update(float dt) = 0;
+
+		virtual void Start() {}
+		virtual void Destroy() {}
 	};
 }

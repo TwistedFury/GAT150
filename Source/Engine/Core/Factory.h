@@ -105,9 +105,6 @@ namespace swaws
 	/// <summary>
 	/// Creates an instance of a registered type derived from Object using its name.
 	/// </summary>
-	/// <typeparam name="T">The type to instantiate. Must be derived from Object.</typeparam>
-	/// <param name="name">The name of the type to create an instance of.</param>
-	/// <returns>A unique pointer to the newly created instance of type T, or nullptr if the name is not found in the registry.</returns>
 	template<typename T>
 	requires std::derived_from<T, Object>
 	inline std::unique_ptr<T> Factory::Create(const std::string& name)
@@ -115,13 +112,16 @@ namespace swaws
 		std::string key = tolower(name);
 		auto it = registry.find(key);
 		if (it != registry.end()) {
-			auto object =  it->second->Create();
-			T* derived = dynamic_cast<T*>(object.get());
-			if (derived) return std::unique_ptr<T>(static_cast<T*>(object.release()));
-			else Logger::Error("Registry contains name: {}, but incorrect type was provided: {}", key, typeid(T).name());
+			std::unique_ptr<Object> base = it->second->Create();
+			if (auto* cast = dynamic_cast<T*>(base.get())) {
+				base.release(); // transfer ownership
+				return std::unique_ptr<T>(cast);
+			}
+			Logger::Error("Registry contains name: {}, but incorrect type was requested: {}", key, typeid(T).name());
+			return {};
 		}
 		Logger::Error("Registry does not contain name: {}", key);
-		return nullptr;
+		return {};
 	}
 
 	/// <summary>

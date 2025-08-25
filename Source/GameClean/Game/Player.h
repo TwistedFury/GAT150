@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Framework/Component.h" 
+#include "Physics/Collidable.h"
 
-class Player : public swaws::Component
+class Player : public swaws::Component, public swaws::Collidable
 {
 public:
 	float speed = 200;
@@ -16,6 +17,8 @@ public:
 		Laser,
 		Count // Always at end so we know how many exist
 	};
+
+	swaws::RigidBody* rigidBody{ nullptr };
 public:
 	Player() = default;
 	CLASS_PROTOTYPE(Player)
@@ -24,7 +27,9 @@ public:
 
 	void Update(float dt) override;
 
-	void OnCollision(class swaws::Actor* other);
+	void Start() override;
+
+	void OnCollision(class swaws::Actor* other) override;
 
 	void SelectWeapon(Weapon weapon);
 

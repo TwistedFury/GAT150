@@ -36,6 +36,9 @@ namespace swaws
 
 		void Read(const json::value_t& value) override;
 
+		virtual void Start();
+		virtual void Destroy();
+
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
 
@@ -51,7 +54,7 @@ namespace swaws
 		/// <returns>The radius as a floating-point value.</returns>
 		virtual float GetRadius();
 
-		virtual void OnCollision(Actor* other) {}
+		virtual void OnCollision(Actor* other);
 
 		// Components
 		void AddComponent(std::unique_ptr<Component> component);

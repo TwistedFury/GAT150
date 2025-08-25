@@ -3,7 +3,8 @@
 #include "Core/Serializable.h"
 #include <string>
 
-#define CLASS_PROTOTYPE(classname) virtual std::unique_ptr<Object> Clone() { return std::make_unique<classname>(*this); }
+// Align macro with (now) correct pure virtual signature (no parameters)
+#define CLASS_PROTOTYPE(classname) std::unique_ptr<Object> Clone() override { return std::make_unique<classname>(*this); }
 
 namespace swaws
 {
@@ -17,7 +18,8 @@ namespace swaws
 		Object() = default;
 		virtual ~Object() = default;
 
-		virtual std::unique_ptr<Object> Clone(const Object& other) = 0;
+		// FIX: Signature changed to match usage everywhere (Prototype pattern uses no-arg Clone())
+		virtual std::unique_ptr<Object> Clone() = 0;
 
 		void Read(const json::value_t& value) override;
 	};

@@ -32,13 +32,12 @@ void Enemy::Update(float dt)
 //    swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation)) * speed;
 //    //velocity += force * dt;
 //
-//    auto rb = GetComponent<swaws::RigidBody>();
-//    if (rb) {
-//        rb->velocity += force * dt;
+//    if (rigidBody) {
+//        rigidBody->velocity += force * dt;
 //
 //        float velMag = rb->velocity.Length();
 //        if (velMag > maxSpeed) {
-//            rb->velocity = rb->velocity.Normalized() * maxSpeed;
+//            rigidBody->velocity = rigidBody->velocity.Normalized() * maxSpeed;
 //        }
 //    }
 //
@@ -98,4 +97,9 @@ void Enemy::OnCollision(swaws::Actor* other)
         }
         swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
     }
+}
+
+void Enemy::Start()
+{
+    rigidBody = owner->GetComponent<swaws::RigidBody>();
 }
