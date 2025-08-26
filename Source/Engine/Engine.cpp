@@ -26,6 +26,9 @@ namespace swaws
 		particle = std::make_unique<ParticleSystem>();
 		particle->Initialize(5000);
 
+		physics = std::make_unique<Physics>();
+		physics->Initialize();
+
 		return true;
 	}
 
@@ -38,6 +41,7 @@ namespace swaws
 		audio->Update();
 		input->Update();
 		particle->Update(time->GetDeltaTime());
+		physics->Update(time->GetDeltaTime());
 	}
 
 	/// <summary>
@@ -52,6 +56,7 @@ namespace swaws
 
 		// Shutdown Engine Processes
 		// Typically reverse order of Initialize
+		physics->Shutdown();
 		particle->Shutdown();
 		input->Shutdown();
 		audio->Shutdown();

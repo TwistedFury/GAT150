@@ -6,6 +6,7 @@
 #include "Audio/AudioSystem.h"
 #include "Renderer/ParticleSystem.h"
 #include "Core/Singleton.h"
+#include "Physics/Physics.h"
 
 namespace swaws
 {
@@ -23,6 +24,7 @@ namespace swaws
 		ParticleSystem& GetPS() { return *particle; }
 		AudioSystem& GetAudio() { return *audio; }
 		InputSystem& GetInput() { return *input; }
+		Physics& GetPhysics() { return *physics; }
 
 		Time& GetTime() { return *time; }
 
@@ -32,6 +34,7 @@ namespace swaws
 		std::unique_ptr<AudioSystem> audio;
 		std::unique_ptr<InputSystem> input;
 		std::unique_ptr<ParticleSystem> particle;
+		std::unique_ptr<Physics> physics;
 
 	private:
 		friend class Singleton<Engine>;
