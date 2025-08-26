@@ -2,8 +2,9 @@
 
 #include "Framework/Component.h" 
 #include "Physics/Collidable.h"
+#include "Event/Observer.h"
 
-class Enemy : public swaws::Component, public swaws::Collidable
+class Enemy : public swaws::Component, public swaws::Collidable, public swaws::IObserver
 {
 public:
 	float fireTime{ 0 };
@@ -20,7 +21,6 @@ public:
 
 	void Start() override;
 
-private:
-	
-
+	// Inherited via IObserver
+	void OnNotify(const swaws::Event& event) override;
 };

@@ -9,6 +9,9 @@
 
 bool SpaceGame::Initialize()
 {
+    OBSERVER_ADD(player_dead);
+    OBSERVER_ADD(add_points);
+
     scene = std::make_unique<swaws::Scene>(this);
     scene->Load("scene.json");
 
@@ -172,14 +175,11 @@ void SpaceGame::Update(float dt)
     scene->Update(swaws::GetEngine().GetTime().GetDeltaTime());
 }
 
-/*
 void SpaceGame::Shutdown()
 {
     //
 }
-*/
 
-/*
 void SpaceGame::Draw(swaws::Renderer& renderer)
 {
     if (m_gameState == GameState::Title)
@@ -206,15 +206,24 @@ void SpaceGame::Draw(swaws::Renderer& renderer)
     scene->Draw(renderer);
     swaws::GetEngine().GetPS().Draw(renderer);
 }
-*/
 
-/*
 void SpaceGame::OnPlayerDeath()
 {
     m_gameState = GameState::PlayerDead;
     m_stateTimer = 2;
 }
-*/
+
+void SpaceGame::OnNotify(const swaws::Event& event)
+{
+    if (swaws::compareIgnore(event.id, "player_dead")) { 
+        OnPlayerDeath(); 
+    }
+    else if (swaws::compareIgnore(event.id, "add_points"))
+    {
+        AddPoints(std::get<int>(event.data));
+    }
+    std::cout << event.id << std::endl;
+}
 
 
 void SpaceGame::SpawnEnemy()
@@ -256,4 +265,3 @@ void SpaceGame::SpawnEnemy()
         */
     }
 }
-

@@ -147,8 +147,8 @@ void Player::OnCollision(swaws::Actor* other)
 {
     if (owner->tag != other->tag)
     {
+        EVENT_NOTIFY(player_dead);
         owner->destroyed = true;
-        dynamic_cast<SpaceGame*>(owner->scene->GetGame())->OnPlayerDeath();
         swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("explosion.wav", swaws::GetEngine().GetAudio()));
     }
 }

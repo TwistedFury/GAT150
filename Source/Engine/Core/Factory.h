@@ -69,6 +69,8 @@ namespace swaws
 		template <typename T = Object>
 		requires std::derived_from<T, Object>
 		std::unique_ptr<T> Create(const std::string& name);
+
+		void RemoveAll() { registry.clear(); }
 	private:
 		std::map<std::string, std::unique_ptr<CreatorBase>> registry;
 	};

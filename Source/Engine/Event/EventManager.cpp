@@ -15,7 +15,7 @@ namespace swaws
 		for (auto& eventType : observers)
 		{
 			// Get list of observers for event type
-			auto observers = eventType.second;
+			auto& observers = eventType.second;
 
 			// Remove matching observers from event type
 			std::erase_if(observers, [observerPtr](auto observer)
@@ -27,6 +27,16 @@ namespace swaws
 
 	void EventManager::Notify(const Event& event)
 	{
-
+		auto it = observers.find(tolower(event.id));
+		if (it != observers.end())
+		{
+			auto& observers = it->second;
+			for (auto& observer : observers)
+			{
+				observer->OnNotify(event);
+			}
+			Logger::Info("Observers of event: {} found and notified", tolower(event.id));
+		}
+		else Logger::Warning("Observers of event: {} were not found", tolower(event.id));
 	}
 }

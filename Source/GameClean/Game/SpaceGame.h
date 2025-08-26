@@ -1,9 +1,11 @@
 #pragma once
+#include "Event/Observer.h"
+#include "Event/Event.h"
 #include "Framework/Game.h"
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
 
-class SpaceGame : public swaws::Game
+class SpaceGame : public swaws::Game, public swaws::IObserver
 {
 public:
 	enum class GameState
@@ -26,6 +28,8 @@ public:
 	void Draw(swaws::Renderer& renderer) override;
 
 	void OnPlayerDeath();
+	void OnNotify(const swaws::Event& event) override;
+	
 private:
 	GameState m_gameState{ GameState::Initialize };
 	float m_enemySpawnTimer{ 0 };

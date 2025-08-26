@@ -9,7 +9,6 @@ namespace swaws
 		class Actor* owner{ nullptr };
 	public:
 		Component() = default;
-		CLASS_PROTOTYPE(Component)
 
 		virtual void Update(float dt) = 0;
 

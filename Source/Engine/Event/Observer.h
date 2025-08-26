@@ -5,7 +5,7 @@ namespace swaws
 	class IObserver
 	{
 	public:
-		~IObserver() = default;
+		~IObserver();
 
 		virtual void OnNotify(const Event& event) = 0;
 	};

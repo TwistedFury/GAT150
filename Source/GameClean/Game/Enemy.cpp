@@ -83,7 +83,7 @@ void Enemy::OnCollision(swaws::Actor* other)
     if (owner->tag != other->tag)
     {
         owner->destroyed = true;
-        owner->scene->GetGame()->AddPoints(100);
+        EVENT_NOTIFY_DATA(add_points, 100);
         // Explosion Particles
         for (int i = 0; i < 100; i++)
         {
@@ -101,5 +101,11 @@ void Enemy::OnCollision(swaws::Actor* other)
 
 void Enemy::Start()
 {
+    swaws::EventManager::Instance().AddObserver("player_dead", *this);
     rigidBody = owner->GetComponent<swaws::RigidBody>();
+}
+
+void Enemy::OnNotify(const swaws::Event& event)
+{
+    if (swaws::compareIgnore(event.id, "player_dead")) owner->destroyed = true;
 }

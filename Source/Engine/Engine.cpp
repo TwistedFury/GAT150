@@ -45,7 +45,12 @@ namespace swaws
 	/// </summary>
 	void Engine::Shutdown()
 	{
-		Resources().Clear();
+		// Clear Singleton Instances
+		Resources().RemoveAll();
+		Factory::Instance().RemoveAll();
+		EventManager::Instance().RemoveAll();
+
+		// Shutdown Engine Processes
 		// Typically reverse order of Initialize
 		particle->Shutdown();
 		input->Shutdown();
