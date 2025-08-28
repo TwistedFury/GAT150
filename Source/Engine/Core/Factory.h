@@ -44,7 +44,7 @@ namespace swaws
 	{
 	public:
 		PrototypeCreator(std::unique_ptr<T> prototype) :
-			prototype{ std::move(prototype) } 
+			prototype{ std::move(prototype) }
 		{ }
 
 		std::unique_ptr<Object> Create() override
@@ -86,7 +86,7 @@ namespace swaws
 	{
 		std::string key = tolower(name);
 		registry[key] = std::make_unique<Creator<T>>();
-		Logger::Info("Added {} to Registry: ", key);
+		Logger::Info("Added {} to Registry", key);
 	}
 
 	/// <summary>
@@ -107,65 +107,46 @@ namespace swaws
 	/// <summary>
 	/// Creates an instance of a registered type derived from Object using its name.
 	/// </summary>
+	/// <typeparam name="T">The type to instantiate. Must be derived from Object.</typeparam>
+	/// <param name="name">The name of the type to create an instance of.</param>
+	/// <returns>A unique pointer to the newly created instance of type T, or nullptr if the name is not found in the registry.</returns>
 	template<typename T>
 	requires std::derived_from<T, Object>
 	inline std::unique_ptr<T> Factory::Create(const std::string& name)
 	{
+		if (compareIgnore(name, "player")) {
+			std::cout << "player" << std::endl;
+		}
 		std::string key = tolower(name);
 		auto it = registry.find(key);
 		if (it != registry.end()) {
-			std::unique_ptr<Object> base = it->second->Create();
-			if (auto* cast = dynamic_cast<T*>(base.get())) {
-				base.release(); // transfer ownership
-				return std::unique_ptr<T>(cast);
-			}
-			Logger::Error("Registry contains name: {}, but incorrect type was requested: {}", key, typeid(T).name());
-			return {};
+			auto object = it->second->Create();
+			T* derived = dynamic_cast<T*>(object.get());
+			if (derived) return std::unique_ptr<T>(static_cast<T*>(object.release()));
+			else Logger::Error("Registry contains name: {}, but incorrect type was provided: {}", key, typeid(T).name());
+			return nullptr;
 		}
 		Logger::Error("Registry does not contain name: {}", key);
-		return {};
+		return nullptr;
 	}
 
-	/// <summary>
-	/// Creates a new Actor instance with the specified name and returns a unique pointer to it.
-	/// </summary>
-	/// <param name="name">The name to assign to the newly created Actor.</param>
-	/// <returns>A std::unique_ptr to the newly created Actor.</returns>
-	std::unique_ptr<Actor> Instantiate(const std::string& name)
+	inline std::unique_ptr<Actor> Instantiate(const std::string& name)
 	{
 		return Factory::Instance().Create<Actor>(name);
 	}
 
-	/// <summary>
-	/// Creates and returns a new Actor instance with the specified name, position, rotation, and scale.
-	/// </summary>
-	/// <param name="name">The name of the Actor to instantiate.</param>
-	/// <param name="position">The position of the Actor in 2D space.</param>
-	/// <param name="rotation">The rotation of the Actor, in degrees or radians (depending on implementation).</param>
-	/// <param name="scale">The scale factor to apply to the Actor.</param>
-	/// <returns>A unique pointer to the newly created Actor, or nullptr if creation failed.</returns>
-	std::unique_ptr<Actor> Instantiate(const std::string& name, const vec2& position, float rotation, float scale)
+	inline std::unique_ptr<Actor> Instantiate(const std::string& name, const vec2& position, float rotation, float scale)
 	{
 		auto actor = Factory::Instance().Create<Actor>(name);
-		if (actor) {
-			actor->transform = Transform{ position, rotation, scale };
-		}
+		if (actor) actor->transform = Transform{ position, rotation, scale };
 		else Logger::Error("Unable to Instantiate Actor: {}", name);
 		return actor;
 	}
 
-	/// <summary>
-	/// Creates a new Actor instance with the specified name and initializes its transform.
-	/// </summary>
-	/// <param name="name">The name of the Actor to instantiate.</param>
-	/// <param name="transform">The Transform object to assign to the new Actor.</param>
-	/// <returns>A unique pointer to the newly created Actor, or nullptr if creation fails.</returns>
-	std::unique_ptr<Actor> Instantiate(const std::string& name, Transform& transform)
+	inline std::unique_ptr<Actor> Instantiate(const std::string& name, Transform& transform)
 	{
 		auto actor = Factory::Instance().Create<Actor>(name);
-		if (actor) {
-			actor->transform = transform;
-		}
+		if (actor) actor->transform = transform;
 		else Logger::Error("Unable to Instantiate Actor: {}", name);
 		return actor;
 	}

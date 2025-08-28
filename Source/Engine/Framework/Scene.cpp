@@ -140,9 +140,12 @@ namespace swaws
 	/// <param name="act">A unique pointer to the actor to be added.</param>
 	void Scene::AddActor(std::unique_ptr<Actor> act, bool start)
 	{
-		act->scene = this;
-		if (start) act->Start();
-		m_actors.push_back(std::move(act));
+		if (act)
+		{
+			act->scene = this;
+			if (start) act->Start();
+			m_actors.push_back(std::move(act));
+		}
 	}
 
 	void Scene::RemoveAllActors(bool force)

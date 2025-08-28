@@ -2,6 +2,7 @@
   "actors": [
     {
       "name": "sprite",
+      "isActive": true,
       "tag": "background",
       "persistent": true,
       "lifespan": 4,
@@ -20,6 +21,8 @@
     {
       "name": "player",
       "tag": "player",
+      "lifespan": 100,
+      "persistent": true,
       "transform": {
         "position": [
           640,
@@ -56,6 +59,8 @@
     {
       "name": "rocket",
       "tag": "player",
+      "lifespan": 2.5,
+      "persistent": false,
       "transform": {
         "position": [
           600,
@@ -74,6 +79,8 @@
     {
       "name": "enemy",
       "tag": "enemy",
+      "lifespan": 100,
+      "persistent": false,
       "transform": {
         "position": [
           600,
@@ -94,6 +101,4 @@
       ]
     }
   ]
-
-
 }

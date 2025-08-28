@@ -5,6 +5,6 @@ namespace swaws
 	void Object::Read(const json::value_t& value)
 	{
 		JSON_READ(value, name);
-		JSON_READ(value, isActive);
+		if (JSON_HAS(value, isActive)) JSON_READ(value, isActive);
 	}
 }
