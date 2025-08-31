@@ -17,6 +17,7 @@ namespace swaws
 		std::string tag;
 
 		float speed = 200;
+		float maxSpeed = 1000;
 		float lifespan{ 0 };
 
 		bool destroyed{ false };
@@ -65,6 +66,9 @@ namespace swaws
 		template <typename T>
 		std::vector<T*> GetComponents();
 
+		// Bug Fixing methods
+		bool GetObjectIsActive() { return isActive; }
+
 	protected:
 		std::vector<std::unique_ptr<Component>> m_components;
 	};
@@ -79,6 +83,7 @@ namespace swaws
 	{
 		for (auto& component : m_components)
 		{
+			if (!component) continue;
 			auto typeConvert = dynamic_cast<T*>(component.get());
 			if (typeConvert) return typeConvert;
 		}

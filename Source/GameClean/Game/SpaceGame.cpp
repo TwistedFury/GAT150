@@ -13,7 +13,10 @@ bool SpaceGame::Initialize()
     OBSERVER_ADD(add_points);
 
     scene = std::make_unique<swaws::Scene>(this);
-    scene->Load("scene.json");
+    if (!scene->Load("scene.json")) {
+        swaws::Logger::Error("Scene boot failed: {}", "scene.json");
+        return false;
+    }
 
     //m_titleFont = std::make_shared<swaws::Font>();
     //m_titleFont->Load("8bitOperatorPlus8-Regular.ttf", 64);

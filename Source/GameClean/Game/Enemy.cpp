@@ -9,72 +9,56 @@ FACTORY_REGISTER(Enemy)
 
 void Enemy::Update(float dt)
 {
-//    bool playerSeen = false;
-//
-//    Player* player = scene->GetActorByName<Player>("player");
-//    if (player) {
-//        swaws::vec2 direction{ 0, 0 };
-//        direction = player->transform.position - transform.position;
-//
-//        direction = direction.Normalized();
-//        swaws::vec2 forward = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation));
-//
-//        float angle = swaws::math::RadToDeg(swaws::vec2::AngleBetween(forward, direction));
-//        playerSeen = angle <= 30;
-//
-//        if (playerSeen) {
-//            float angle = swaws::vec2::SignedAngleBetween(forward, direction);
-//            angle = swaws::math::sign(angle);
-//            transform.rotation += swaws::math::RadToDeg(angle * 5 * dt);
-//        }
-//    }
-//
-//    swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation)) * speed;
-//    //velocity += force * dt;
-//
-//    if (rigidBody) {
-//        rigidBody->velocity += force * dt;
-//
-//        float velMag = rb->velocity.Length();
-//        if (velMag > maxSpeed) {
-//            rigidBody->velocity = rigidBody->velocity.Normalized() * maxSpeed;
-//        }
-//    }
-//
-//    transform.position.x = swaws::math::wrap(transform.position.x, 0.0f, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
-//    transform.position.y = swaws::math::wrap(transform.position.y, 0.0f, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
-//
-//    // check fire
-//    fireTimer -= dt;
-//    if (fireTimer <= 0 && playerSeen) {
-//        fireTimer = fireTime;
-//        
-//        swaws::Transform transform{ this->transform.position, this->transform.rotation, 1.0f };
-//        auto rocket = std::make_unique<Rocket>(transform);
-//        rocket->speed = 200;
-//        rocket->lifespan = 1.5f;
-//        rocket->name = "rocket";
-//        rocket->tag = "enemy";
-//
-//        // Components
-//        auto sr = std::make_unique<swaws::SpriteRenderer>();
-//        sr->textureName = "spaceship-sprites/projectiles/projectile05-1.png";
-//        
-//        auto rb = std::make_unique<swaws::RigidBody>();
-//        rb->damping = 0.0f; // Set Damping for rocket
-//
-//        auto collider = std::make_unique<swaws::CircleCollider2D>();
-//        collider->radius = 20;
-//
-//        rocket->AddComponent(std::move(sr));
-//        rocket->AddComponent(std::move(rb));
-//        rocket->AddComponent(std::move(collider));
-//
-//        scene->AddActor(std::move(rocket));
-//        swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("blaster.wav", swaws::GetEngine().GetAudio()));
-//    }
-//
-//    Actor::Update(dt);
+    bool playerSeen = false;
+
+    auto playerActor = owner->scene->GetActorByName("player");
+    if (!playerActor) return;
+    auto player = playerActor->GetComponent<Player>();
+    if (player) {
+        swaws::vec2 direction{ 0, 0 };
+        direction = player->owner->transform.position - owner->transform.position;
+
+        direction = direction.Normalized();
+        swaws::vec2 forward = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(owner->transform.rotation));
+
+        float angle = swaws::math::RadToDeg(swaws::vec2::AngleBetween(forward, direction));
+        playerSeen = angle <= 30;
+
+        if (playerSeen) {
+            float angle = swaws::vec2::SignedAngleBetween(forward, direction);
+            angle = swaws::math::sign(angle);
+            owner->transform.rotation += swaws::math::RadToDeg(angle * 5 * dt);
+        }
+    }
+
+    swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(owner->transform.rotation)) * owner->speed;
+    //velocity += force * dt;
+
+    if (rigidBody) {
+        rigidBody->velocity += force * dt;
+
+        float velMag = rigidBody->velocity.Length();
+        if (velMag > owner->maxSpeed) {
+            rigidBody->velocity = rigidBody->velocity.Normalized() * owner->maxSpeed;
+        }
+    }
+
+    owner->transform.position.x = swaws::math::wrap(owner->transform.position.x, 0.0f, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
+    owner->transform.position.y = swaws::math::wrap(owner->transform.position.y, 0.0f, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
+
+    // check fire
+    fireTimer -= dt;
+    if (fireTimer <= 0 && playerSeen) {
+        fireTimer = fireTime;
+        
+        swaws::Transform transform{ owner->transform.position, owner->transform.rotation, 1.0f };
+        auto rocket = swaws::Instantiate("rocket");
+
+        owner->scene->AddActor(std::move(rocket), true);
+        swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("blaster.wav", swaws::GetEngine().GetAudio()));
+    }
+
+    owner->Actor::Update(dt);
 }
 
 

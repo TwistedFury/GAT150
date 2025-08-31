@@ -12,14 +12,14 @@ int main(int argc, char* argv[]) {
     swaws::GetEngine().Initialize();
 
     // Initialize Game
+    bool quit = false;
     std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
-    game->Initialize();
+    if (!game->Initialize()) quit = true;
 
     // Load Background
     swaws::Texture background = *swaws::Resources().Get<swaws::Texture>("new_background.png", swaws::GetEngine().GetRenderer());
 
     SDL_Event e;
-    bool quit = false;
     
     // MAIN LOOP
     while (!quit) {

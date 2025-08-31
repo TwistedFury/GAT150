@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Player.h"
 
+#include "Core/Json.h"
 
 FACTORY_REGISTER(Rocket)
 

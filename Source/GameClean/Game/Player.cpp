@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "Rocket.h"
 #include "Laser.h"
-#include "GameData.h"
 #include "SpaceGame.h"
 
 FACTORY_REGISTER(Player)

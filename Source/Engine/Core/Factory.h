@@ -85,7 +85,9 @@ namespace swaws
 	inline void Factory::Register(const std::string& name)
 	{
 		std::string key = tolower(name);
-		registry[key] = std::make_unique<Creator<T>>();
+		constexpr bool isActor = std::is_base_of_v<Actor, T>;
+		if (isActor) registry[key] = std::make_unique<Creator<Actor>>();
+		else registry[key] = std::make_unique<Creator<T>>();
 		Logger::Info("Added {} to Registry", key);
 	}
 
@@ -114,17 +116,18 @@ namespace swaws
 	requires std::derived_from<T, Object>
 	inline std::unique_ptr<T> Factory::Create(const std::string& name)
 	{
-		if (compareIgnore(name, "player")) {
-			std::cout << "player" << std::endl;
-		}
 		std::string key = tolower(name);
 		auto it = registry.find(key);
 		if (it != registry.end()) {
 			auto object = it->second->Create();
-			T* derived = dynamic_cast<T*>(object.get());
-			if (derived) return std::unique_ptr<T>(static_cast<T*>(object.release()));
-			else Logger::Error("Registry contains name: {}, but incorrect type was provided: {}", key, typeid(T).name());
-			return nullptr;
+			constexpr bool isActor = std::is_base_of_v<Actor, T>;
+			if (isActor) return std::unique_ptr<T>(static_cast<T*>(object.release()));
+			else {
+				auto derived = dynamic_cast<T*>(object.get());
+				if (derived) return std::unique_ptr<T>(static_cast<T*>(object.release()));
+				else Logger::Error("Registry contains name: {}, but incorrect type was provided: {}", key, typeid(T).name());
+				return nullptr;
+			}
 		}
 		Logger::Error("Registry does not contain name: {}", key);
 		return nullptr;

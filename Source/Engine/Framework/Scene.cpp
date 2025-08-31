@@ -50,59 +50,36 @@ namespace swaws
 	/// <param name="dt">The time elapsed since the last update, in seconds.</param>
 	void Scene::Update(float dt)
 	{
-		// Update All Actors
+		// Update All Actors (only those active and not pending removal)
 		for (auto& act : m_actors)
 		{
-			if (act->isActive) act->Update(dt);
+			if (act && act->isActive && !act->destroyed) act->Update(dt);
 		}
-
-		//// Remove Destroyed Actors
-		//for (auto iter = m_actors.begin(); iter != m_actors.end();)
-		//{
-		//	if ((*iter)->destroyed) iter = m_actors.erase(iter);
-		//	else iter++;
-		//}
 
 		std::erase_if(m_actors, [](auto& actor)
 		{
-			return (actor->destroyed);
+			return actor->destroyed;
 		});
 
 		// Check for collisions
 		for (auto& actorA : m_actors)
 		{
+			if (!actorA->isActive || actorA->destroyed) continue;
+
 			for (auto& actorB : m_actors)
 			{
-				if (actorA == actorB || (actorA->destroyed || actorB->destroyed)) continue;
-				
+				if (actorA == actorB) continue;
+				if (!actorB->isActive || actorB->destroyed) continue;
+
 				auto colliderA = actorA->GetComponent<ColliderComponent>();
 				auto colliderB = actorB->GetComponent<ColliderComponent>();
-
-				if (colliderA == nullptr || colliderB == nullptr) continue;
+				if (!colliderA || !colliderB) continue;
 
 				if (colliderA->CheckCollision(*colliderB))
 				{
 					actorA->OnCollision(actorB.get());
 					actorB->OnCollision(actorA.get());
 				}
-
-				// TODO: Make into Straight Line Collision
-				// Straight-Line Collision Checks (Sight Checks?)
-				/*
-				if (actorA->name == "laser") {
-					vec2 laserStart = actorA->transform.position;
-					vec2 laserDir = vec2{ 1, 0 }.Rotate(math::DegToRad(actorA->transform.rotation));
-					vec2 laserEnd = laserStart + laserDir * actorA->length;
-
-					vec2 circleCenter = actorB->transform.position;
-					float circleRadius = actorB->GetRadius();
-
-					if (LineCircleCollision(laserStart, laserEnd, circleCenter, circleRadius)) {
-						actorA->OnCollision(actorB.get());
-						actorB->OnCollision(actorA.get());
-					}
-				}
-				*/
 			}
 		}
 	}
@@ -115,7 +92,7 @@ namespace swaws
 	{
 		for (auto& act : m_actors)
 		{
-			if (act->isActive) act->Draw(renderer);
+			if (act && act->GetObjectIsActive()) act->Draw(renderer);
 		}
 	}
 

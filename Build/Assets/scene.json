@@ -61,18 +61,15 @@
       "tag": "player",
       "lifespan": 2.5,
       "persistent": false,
-      "transform": {
-        "position": [
-          600,
-          512
-        ],
-        "rotation": 0,
-        "scale": 1
-      },
       "components": [
         {
           "type": "Rocket",
-          "speed": 250
+          "speed": 200,
+          "lifespan": 1.5
+        },
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/large_blue_01.png"
         }
       ]
     },
@@ -99,6 +96,26 @@
           "speed": 100
         }
       ]
-    }
+    },
+    {
+      "name": "rocket",
+      "tag": "enemy",
+      "lifespan": 1.5,
+      "persistent": false,
+      "components": [
+          {
+            "type": "SpriteRenderer",
+            "textureName": "spaceship-sprites/projectiles/projectile05-1.png"
+          },
+          {
+            "type": "RigidBody",
+            "damping": 0
+          },
+          {
+            "type": "CircleCollider2D",
+            "radius": 20
+          }
+        ]
+      }
   ]
 }
