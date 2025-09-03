@@ -141,7 +141,7 @@ namespace swaws {
         SDL_RenderTexture(m_renderer, texture.m_texture, NULL, &destRect);
     }
 
-    void Renderer::DrawTexture(Texture& texture, float x, float y, float rot, float scale)
+    void Renderer::DrawTexture(Texture& texture, float x, float y, float rot, float scale, bool flipH)
     {
         vec2 size = texture.GetSize();
 
@@ -151,6 +151,6 @@ namespace swaws {
         destRect.x = x - (destRect.w * 0.5f);
         destRect.y = y - (destRect.h * 0.5f);
 
-        SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, rot, NULL, SDL_FLIP_NONE);
+        SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, rot, NULL, (flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE));
     }
 }

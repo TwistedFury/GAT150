@@ -9,6 +9,7 @@ class Enemy : public swaws::Component, public swaws::Collidable, public swaws::I
 public:
 	float fireTime{ 0 };
 	float fireTimer{ fireTime };
+	float speed{ 0 };
 
 	swaws::RigidBody* rigidBody{ nullptr };
 
@@ -20,6 +21,7 @@ public:
 	void OnCollision(class swaws::Actor* other) override;
 
 	void Start() override;
+	void Read(const swaws::json::value_t& value) override;
 
 	// Inherited via IObserver
 	void OnNotify(const swaws::Event& event) override;

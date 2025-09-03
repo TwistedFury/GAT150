@@ -7,12 +7,10 @@ namespace swaws
 {
 	FACTORY_REGISTER(RigidBody)
 
-	RigidBody::RigidBody(const RigidBody& other)
+	RigidBody::RigidBody(const RigidBody& other) 
 	{
 		bodyDef = other.bodyDef;
 		size = other.size;
-		
-		if (other.m_body) m_body = std::make_unique<PhysicsBody>(*other.m_body);
 	}
 
 	void RigidBody::Start()
@@ -38,6 +36,7 @@ namespace swaws
 	{
 		owner->transform.position = m_body->GetPosition();
 		owner->transform.rotation = math::RadToDeg(m_body->GetAngle());
+		velocity = m_body->GetVelocity();
 
 		//// Larger effect on damping speed with std::exp
 		//owner->transform.position += velocity * dt;

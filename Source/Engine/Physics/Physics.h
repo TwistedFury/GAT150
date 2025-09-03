@@ -25,6 +25,8 @@ namespace swaws
 		static vec2 PixelToWorld(const vec2& pixel) { return pixel * (1/ms_ppu); }
 
 		static void SetPPU(float ppu) { ms_ppu = ppu; }
+
+		void ProcessCollisionEvents();
 	private:
 		friend class PhysicsBody;
 		b2WorldId m_worldId;

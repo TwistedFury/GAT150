@@ -26,6 +26,7 @@ namespace swaws
 
 		void ApplyForce(const vec2& force);
 		void ApplyTorque(float torque); // torque is in radians
+
 		void SetVelocity(const vec2& v);
 
         PhysicsBody* GetBody() { return m_body.get(); }

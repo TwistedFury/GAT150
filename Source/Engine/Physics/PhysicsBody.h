@@ -45,6 +45,13 @@ namespace swaws
 		void ApplyTorque(float torque); // torque is in radians
 
 		void SetVelocity(const vec2& v);
+		vec2 GetVelocity();
+
+		// Non-copyable, movable
+		PhysicsBody(const PhysicsBody&) = delete;
+		PhysicsBody& operator=(const PhysicsBody&) = delete;
+		PhysicsBody(PhysicsBody&&) = default;
+		PhysicsBody& operator=(PhysicsBody&&) = default;
 	private:
 		b2BodyId m_bodyId{ b2_nullBodyId };
 	};

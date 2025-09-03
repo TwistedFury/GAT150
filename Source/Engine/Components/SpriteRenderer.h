@@ -7,7 +7,10 @@ namespace swaws
 	{
 	public:
 		std::string textureName;
+		
 		res_t<Texture> texture;
+		bool flipH{ false };
+
 	public:
 		CLASS_PROTOTYPE(SpriteRenderer)
 

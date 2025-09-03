@@ -55,40 +55,9 @@ void SpaceGame::Update(float dt)
         auto player = swaws::Instantiate("player");
         scene->AddActor(std::move(player), true);
 
-        m_gameState = GameState::Game;
+        m_gameState = GameState::Game; // Had this commented out, No wonder the game didn't run..
 
-        /*
-        //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
-        swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 1);
-        std::unique_ptr<Player> player = std::make_unique<Player>(transform);
-
-        player->speed = 1500; // Set player Speed
-        player->maxSpeed = 2000;
-        player->rotationRate = 180; // Set Rotation Rate
-        player->tag = "player";
-        player->name = "player";
-
-        auto mr = std::make_unique<swaws::MeshRenderer>();
-        mr->meshName = "spaceship-sprites/blue_01.png";
-
-        auto sr = std::make_unique<swaws::SpriteRenderer>();
-        sr->textureName = "spaceship-sprites/blue_01.png";
-
-        auto rb = std::make_unique<swaws::RigidBody>();
-        rb->damping = 0.5f; // Set Damping for player
-
-        auto collider = std::make_unique<swaws::CircleCollider2D>();
-        collider->radius = 60;
-
-        // Add Components to Player
-        player->AddComponent(std::move(sr));
-        player->AddComponent(std::move(rb));
-        player->AddComponent(std::move(collider));
-
-        scene->AddActor(std::move(player));
-        m_gameState = GameState::Game;
-
-        // Set up UI Icons
+        /* Set up UI Icons
         float scale = 5;
         std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
         std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 0.0f, 0.0f });
@@ -227,13 +196,12 @@ void SpaceGame::OnNotify(const swaws::Event& event)
 
 void SpaceGame::SpawnEnemy()
 {   
-    auto playerActor = scene->GetActorByName<Player>("player");
+    auto playerActor = scene->GetActorByName<swaws::Actor>("player");
     if (!playerActor) return; // Player does not exist
-    auto player = playerActor->owner;
-    if (player) // Check if the player (component) has an owner
+    else
     {
         // Spawn @ Random Position away from Player
-        swaws::vec2 position = player->GetComponent<swaws::RigidBody>()->GetBody()->GetPosition() + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
+        swaws::vec2 position = playerActor->GetComponent<swaws::RigidBody>()->GetBody()->GetPosition() + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
         swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1 };
         auto enemy = swaws::Instantiate("enemy", transform);
         scene->AddActor(std::move(enemy), true);

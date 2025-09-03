@@ -78,5 +78,7 @@ namespace swaws {
 		using std::atan;
 		using std::atanf;
 		using std::atan2f;
+		using std::abs;
+		using std::fabs;
 	}
 }

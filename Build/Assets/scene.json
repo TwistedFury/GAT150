@@ -44,7 +44,8 @@
         },
         {
           "type": "RigidBody",
-          "gravityScale": 0
+          "gravityScale": 0,
+          "constrainAngle": true
         },
         {
           "type": "SpriteRenderer",
@@ -69,7 +70,8 @@
         {
           "type": "RigidBody",
           "gravityScale": 0,
-          "linearDamping": 0
+          "linearDamping": 0,
+          "constrainAngle": true
         },
         {
           "type": "CircleCollider2D",
@@ -88,7 +90,8 @@
         },
         {
           "type": "Enemy",
-          "speed": 100
+          "speed": 100,
+          "fireTime": 0.5
         },
         {
           "type": "RigidBody",

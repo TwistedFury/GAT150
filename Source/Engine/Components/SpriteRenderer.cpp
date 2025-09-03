@@ -27,7 +27,8 @@ namespace swaws
 				owner->transform.position.x,
 				owner->transform.position.y,
 				owner->transform.rotation,
-				owner->transform.scale
+				owner->transform.scale,
+				flipH
 			);
 		}
 	}
@@ -36,5 +37,6 @@ namespace swaws
 	{
 		Object::Read(value);
 		JSON_READ(value, textureName);
+		JSON_READ(value, flipH);
 	}
 }

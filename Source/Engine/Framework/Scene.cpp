@@ -61,7 +61,7 @@ namespace swaws
 		{
 			return actor->destroyed;
 		});
-
+		/*
 		// Check for collisions
 		for (auto& actorA : m_actors)
 		{
@@ -84,6 +84,7 @@ namespace swaws
 				}
 			}
 		}
+		*/
 	}
 
 	/// <summary>

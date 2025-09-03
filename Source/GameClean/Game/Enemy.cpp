@@ -12,11 +12,13 @@ void Enemy::Update(float dt)
     bool playerSeen = false;
 
     auto playerActor = owner->scene->GetActorByName("player");
+
+    float rocketOffset{ 0 };
     if (!playerActor) return;
     auto player = playerActor->GetComponent<Player>();
     if (player && rigidBody) {
         swaws::vec2 direction{ 0, 0 };
-        direction = player->owner->transform.position - owner->transform.position;
+        direction = player->rigidBody->GetBody()->GetPosition() - rigidBody->GetBody()->GetPosition();
 
         direction = direction.Normalized();
         swaws::vec2 forward = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(rigidBody->GetBody()->GetAngle()));
@@ -30,8 +32,11 @@ void Enemy::Update(float dt)
             rigidBody->ApplyTorque(swaws::math::DegToRad(angle));
         }
 
-        swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(owner->transform.rotation)) * owner->speed;
+        swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(rigidBody->GetBody()->GetAngle()) * owner->speed;
         rigidBody->ApplyForce(force);
+
+        // Set Rocket Offset (In here because direction is needed)
+        rocketOffset = direction.x * 10;
     }
 
     // check fire
@@ -39,7 +44,8 @@ void Enemy::Update(float dt)
     if (fireTimer <= 0 && playerSeen) {
         fireTimer = fireTime;
         
-        swaws::Transform transform{ owner->transform.position, owner->transform.rotation, 1.0f };
+        swaws::Transform transform{ rigidBody->GetBody()->GetPosition(), swaws::math::RadToDeg(rigidBody->GetBody()->GetAngle()), 1.0f};
+        transform.position += { rocketOffset, rocketOffset };
         auto rocket = swaws::Instantiate("rocket_enemy", transform);
 
         owner->scene->AddActor(std::move(rocket), true);
@@ -73,6 +79,14 @@ void Enemy::Start()
 {
     swaws::EventManager::Instance().AddObserver("player_dead", *this);
     rigidBody = owner->GetComponent<swaws::RigidBody>();
+}
+
+void Enemy::Read(const swaws::json::value_t& value)
+{
+    Object::Read(value);
+
+    JSON_READ(value, speed);
+    JSON_READ(value, fireTime);
 }
 
 void Enemy::OnNotify(const swaws::Event& event)
