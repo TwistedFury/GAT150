@@ -25,7 +25,6 @@ void Player::Update(float dt)
         rigidBody = owner->GetComponent<swaws::RigidBody>();
         if (!rigidBody) return;
     }
-
     float angle = owner->transform.rotation + swaws::random::getReal(-60.0f, 60.0f);
     swaws::vec2 pv = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(angle));
     pv *= swaws::random::getReal(80.0f, 150.0f);
@@ -58,10 +57,10 @@ void Player::Update(float dt)
     swaws::vec2 force = direction.Rotate(rigidBody->GetBody()->GetAngle()) * thrust * speed;
     rigidBody->ApplyForce(force);
 
-    owner->transform.position.x = swaws::math::wrap(owner->transform.position.x, 0.0f,
-        (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
-    owner->transform.position.y = swaws::math::wrap(owner->transform.position.y, 0.0f,
-        (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
+    //owner->transform.position.x = swaws::math::wrap(owner->transform.position.x, 0.0f,
+    //    (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
+    //owner->transform.position.y = swaws::math::wrap(owner->transform.position.y, 0.0f,
+    //    (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
 
     swaws::Transform transform(owner->transform.position, owner->transform.rotation, 1);
 

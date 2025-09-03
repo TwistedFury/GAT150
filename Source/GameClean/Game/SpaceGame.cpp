@@ -12,8 +12,6 @@ bool SpaceGame::Initialize()
     OBSERVER_ADD(player_dead);
     OBSERVER_ADD(add_points);
 
-    swaws::Factory::Instance().RemoveAll();
-
     scene = std::make_unique<swaws::Scene>(this);
     if (!scene->Load("scene.json")) {
         swaws::Logger::Error("Scene boot failed: {}", "scene.json");
@@ -56,6 +54,8 @@ void SpaceGame::Update(float dt)
         scene->RemoveAllActors();
         auto player = swaws::Instantiate("player");
         scene->AddActor(std::move(player), true);
+
+        m_gameState = GameState::Game;
 
         /*
         //std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
@@ -225,7 +225,6 @@ void SpaceGame::OnNotify(const swaws::Event& event)
     std::cout << event.id << std::endl;
 }
 
-
 void SpaceGame::SpawnEnemy()
 {   
     auto playerActor = scene->GetActorByName<Player>("player");
@@ -234,7 +233,7 @@ void SpaceGame::SpawnEnemy()
     if (player) // Check if the player (component) has an owner
     {
         // Spawn @ Random Position away from Player
-        swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
+        swaws::vec2 position = player->GetComponent<swaws::RigidBody>()->GetBody()->GetPosition() + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
         swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1 };
         auto enemy = swaws::Instantiate("enemy", transform);
         scene->AddActor(std::move(enemy), true);

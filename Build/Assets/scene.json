@@ -5,7 +5,7 @@
       "tag": "player",
       "persistent": false,
       "transform": {
-        "position": [ 0, 0 ],
+        "position": [ 512, 640 ],
         "rotation": 0,
         "scale": 2
       },
@@ -17,7 +17,8 @@
         {
           "type": "RigidBody",
           "gravityScale": 0,
-          "angularDamping": 0.5
+          "angularDamping": 0.5,
+          "linearDamping": 0.5
         },
         {
           "type": "CircleCollider2D",
@@ -79,12 +80,7 @@
     {
       "name": "enemy",
       "tag": "enemy",
-      "lifespan": 100,
-      "transform": {
-        "position": [ 0, 0 ],
-        "rotation": 0,
-        "scale": 1
-      },
+      "persistent": false,
       "components": [
         {
           "type": "SpriteRenderer",
@@ -93,6 +89,12 @@
         {
           "type": "Enemy",
           "speed": 100
+        },
+        {
+          "type": "RigidBody",
+          "gravityScale": 0,
+          "angularDamping": 0.5,
+          "linearDamping": 0.5
         }
       ]
     },

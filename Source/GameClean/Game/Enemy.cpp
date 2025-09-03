@@ -14,12 +14,12 @@ void Enemy::Update(float dt)
     auto playerActor = owner->scene->GetActorByName("player");
     if (!playerActor) return;
     auto player = playerActor->GetComponent<Player>();
-    if (player) {
+    if (player && rigidBody) {
         swaws::vec2 direction{ 0, 0 };
         direction = player->owner->transform.position - owner->transform.position;
 
         direction = direction.Normalized();
-        swaws::vec2 forward = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(owner->transform.rotation));
+        swaws::vec2 forward = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(rigidBody->GetBody()->GetAngle()));
 
         float angle = swaws::math::RadToDeg(swaws::vec2::AngleBetween(forward, direction));
         playerSeen = angle <= 30;
@@ -27,24 +27,12 @@ void Enemy::Update(float dt)
         if (playerSeen) {
             float angle = swaws::vec2::SignedAngleBetween(forward, direction);
             angle = swaws::math::sign(angle);
-            owner->transform.rotation += swaws::math::RadToDeg(angle * 5 * dt);
+            rigidBody->ApplyTorque(swaws::math::DegToRad(angle));
         }
+
+        swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(owner->transform.rotation)) * owner->speed;
+        rigidBody->ApplyForce(force);
     }
-
-    swaws::vec2 force = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(owner->transform.rotation)) * owner->speed;
-    //velocity += force * dt;
-
-    if (rigidBody) {
-        rigidBody->velocity += force * dt;
-
-        float velMag = rigidBody->velocity.Length();
-        if (velMag > owner->maxSpeed) {
-            rigidBody->velocity = rigidBody->velocity.Normalized() * owner->maxSpeed;
-        }
-    }
-
-    owner->transform.position.x = swaws::math::wrap(owner->transform.position.x, 0.0f, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
-    owner->transform.position.y = swaws::math::wrap(owner->transform.position.y, 0.0f, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
 
     // check fire
     fireTimer -= dt;
