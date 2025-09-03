@@ -64,6 +64,7 @@ namespace swaws
 		// Check for collisions
 		for (auto& actorA : m_actors)
 		{
+			continue; // IGNORE EVERYTHING
 			if (!actorA->isActive || actorA->destroyed) continue;
 
 			for (auto& actorB : m_actors)
@@ -90,9 +91,21 @@ namespace swaws
 	/// <param name="renderer">The renderer used to draw the actors.</param>
 	void Scene::Draw(Renderer& renderer)
 	{
+		// This method is under reconstruction due to ERROR 0xC0000005 exception
 		for (auto& act : m_actors)
 		{
-			if (act && act->GetObjectIsActive()) act->Draw(renderer);
+			if (!act) {
+				Logger::Error("Null actor entry in m_actors");
+				continue;
+			}
+			if (!act->GetObjectIsActive()) continue;
+
+			// vptr check before calling Draw
+			if (reinterpret_cast<void**>(act.get())[0] == nullptr) {
+				Logger::Error("Actor vptr corrupted before Draw: {}", act->name);
+				continue;
+			}
+			act->Draw(renderer);
 		}
 	}
 

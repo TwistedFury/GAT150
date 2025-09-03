@@ -52,13 +52,11 @@ void Enemy::Update(float dt)
         fireTimer = fireTime;
         
         swaws::Transform transform{ owner->transform.position, owner->transform.rotation, 1.0f };
-        auto rocket = swaws::Instantiate("rocket");
+        auto rocket = swaws::Instantiate("rocket_enemy", transform);
 
         owner->scene->AddActor(std::move(rocket), true);
         swaws::GetEngine().GetAudio().PlaySound(*swaws::Resources().Get<swaws::AudioClip>("blaster.wav", swaws::GetEngine().GetAudio()));
     }
-
-    owner->Actor::Update(dt);
 }
 
 

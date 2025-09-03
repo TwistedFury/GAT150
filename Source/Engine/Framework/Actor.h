@@ -13,7 +13,7 @@ namespace swaws
 	class Actor : public Object
 	{
 	public:
-		std::string name;
+		// std::string name; // REMOVED: duplicate (shadowed Object::name)
 		std::string tag;
 
 		float speed = 200;
@@ -25,6 +25,7 @@ namespace swaws
 
 		Transform transform;
 		class Scene* scene{ nullptr };
+
 	public:
 		Actor() = default;
 		Actor(const Transform& transform) :
@@ -36,28 +37,15 @@ namespace swaws
 		CLASS_PROTOTYPE(Actor)
 
 		void Read(const json::value_t& value) override;
-
 		virtual void Start();
 		virtual void Destroy();
-
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
 
-		/// <summary>
-		/// Returns a reference to the object's transform. This function is depracated.
-		/// </summary>
-		/// <returns>A reference to the transform associated with the object.</returns>
 		Transform& GetTransform() { return transform; }
-
-		/// <summary>
-		/// Retrieves the radius value. Currently only in use for straight line detection in Scene.cpp
-		/// </summary>
-		/// <returns>The radius as a floating-point value.</returns>
 		virtual float GetRadius();
-
 		virtual void OnCollision(Actor* other);
 
-		// Components
 		void AddComponent(std::unique_ptr<Component> component);
 
 		template <typename T>
@@ -66,7 +54,6 @@ namespace swaws
 		template <typename T>
 		std::vector<T*> GetComponents();
 
-		// Bug Fixing methods
 		bool GetObjectIsActive() { return isActive; }
 
 	protected:

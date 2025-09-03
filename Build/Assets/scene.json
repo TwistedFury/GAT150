@@ -1,4 +1,127 @@
 {
+  "prototypes": [
+    {
+      "name": "player",
+      "tag": "player",
+      "persistent": false,
+      "transform": {
+        "position": [ 0, 0 ],
+        "rotation": 0,
+        "scale": 2
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/blue_01.png"
+        },
+        {
+          "type": "RigidBody",
+          "gravityScale": 0,
+          "angularDamping": 0.5
+        },
+        {
+          "type": "CircleCollider2D",
+          "radius": 60
+        },
+        {
+          "type": "Player",
+          "speed": 1500,
+          "rotationRate": 180,
+          "fireTime": 0.2
+        }
+      ]
+    },
+    {
+      "name": "rocket_player",
+      "tag": "player",
+      "lifespan": 2.5,
+      "components": [
+        {
+          "type": "Rocket",
+          "speed": 200,
+          "lifespan": 1.5
+        },
+        {
+          "type": "RigidBody",
+          "gravityScale": 0
+        },
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/projectiles/projectile05-1.png"
+        },
+        {
+          "type": "CircleCollider2D",
+          "radius": 20
+        }
+      ]
+    },
+    {
+      "name": "laser",
+      "tag": "player",
+      "lifespan": 2.0,
+      "components": [
+        { "type": "Laser" },
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/projectiles/projectile03-1.png"
+        },
+        {
+          "type": "RigidBody",
+          "gravityScale": 0,
+          "linearDamping": 0
+        },
+        {
+          "type": "CircleCollider2D",
+          "radius": 20
+        }
+      ]
+    },
+    {
+      "name": "enemy",
+      "tag": "enemy",
+      "lifespan": 100,
+      "transform": {
+        "position": [ 0, 0 ],
+        "rotation": 0,
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/large_blue_01.png"
+        },
+        {
+          "type": "Enemy",
+          "speed": 100
+        }
+      ]
+    },
+    {
+      "name": "rocket_enemy",
+      "tag": "enemy",
+      "lifespan": 2.5,
+      "components": [
+        {
+          "type": "Rocket",
+          "speed": 200,
+          "lifespan": 1.5
+        },
+        {
+          "type": "RigidBody",
+          "gravityScale": 0
+        },
+        {
+          "type": "SpriteRenderer",
+          "textureName": "spaceship-sprites/projectiles/projectile05-1.png"
+        },
+        {
+          "type": "CircleCollider2D",
+          "radius": 20
+        }
+      ]
+    }
+  ],
+
   "actors": [
     {
       "name": "sprite",
@@ -17,105 +140,6 @@
           "textureName": "background.png"
         }
       ]
-    },
-    {
-      "name": "player",
-      "tag": "player",
-      "lifespan": 100,
-      "persistent": true,
-      "transform": {
-        "position": [
-          640,
-          512
-        ],
-        "rotation": 30,
-        "scale": 2
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "spaceship-sprites/blue_01.png"
-        },
-        {
-          "type": "RigidBody",
-          "damping": 1.5,
-          "velocity": [
-            30,
-            0
-          ]
-        },
-        {
-          "type": "CircleCollider2D",
-          "radius": 60
-        },
-        {
-          "type": "Player",
-          "speed": 200,
-          "rotationRate": 180,
-          "fireTime": 0.2
-        }
-      ]
-    },
-    {
-      "name": "rocket",
-      "tag": "player",
-      "lifespan": 2.5,
-      "persistent": false,
-      "components": [
-        {
-          "type": "Rocket",
-          "speed": 200,
-          "lifespan": 1.5
-        },
-        {
-          "type": "SpriteRenderer",
-          "textureName": "spaceship-sprites/large_blue_01.png"
-        }
-      ]
-    },
-    {
-      "name": "enemy",
-      "tag": "enemy",
-      "lifespan": 100,
-      "persistent": false,
-      "transform": {
-        "position": [
-          600,
-          512
-        ],
-        "rotation": 0,
-        "scale": 1
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "spaceship-sprites/large_blue_01.png"
-        },
-        {
-          "type": "Enemy",
-          "speed": 100
-        }
-      ]
-    },
-    {
-      "name": "rocket",
-      "tag": "enemy",
-      "lifespan": 1.5,
-      "persistent": false,
-      "components": [
-          {
-            "type": "SpriteRenderer",
-            "textureName": "spaceship-sprites/projectiles/projectile05-1.png"
-          },
-          {
-            "type": "RigidBody",
-            "damping": 0
-          },
-          {
-            "type": "CircleCollider2D",
-            "radius": 20
-          }
-        ]
-      }
+    }
   ]
 }

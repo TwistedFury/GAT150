@@ -60,6 +60,7 @@ namespace swaws {
         windowWidth = width;
         windowHeight = height;
 
+        SDL_SetRenderVSync(m_renderer, 1); // Force 60 fps
         SDL_SetRenderLogicalPresentation(m_renderer, windowWidth, windowHeight, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
         return true;

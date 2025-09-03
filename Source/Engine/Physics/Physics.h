@@ -11,6 +11,9 @@ namespace swaws
 	class Physics
 	{
 	public:
+		static float ms_ppu; // Pixels Per Unit
+
+	public:
 		Physics() = default;
 
 		bool Initialize();
@@ -18,8 +21,12 @@ namespace swaws
 
 		void Update(float dt);
 
-		vec2 WorldToPixel(const vec2& world) {}
+		static vec2 WorldToPixel(const vec2& world) { return world * ms_ppu; }
+		static vec2 PixelToWorld(const vec2& pixel) { return pixel * (1/ms_ppu); }
+
+		static void SetPPU(float ppu) { ms_ppu = ppu; }
 	private:
+		friend class PhysicsBody;
 		b2WorldId m_worldId;
 	};
 }

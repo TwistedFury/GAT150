@@ -12,6 +12,8 @@ bool SpaceGame::Initialize()
     OBSERVER_ADD(player_dead);
     OBSERVER_ADD(add_points);
 
+    swaws::Factory::Instance().RemoveAll();
+
     scene = std::make_unique<swaws::Scene>(this);
     if (!scene->Load("scene.json")) {
         swaws::Logger::Error("Scene boot failed: {}", "scene.json");
@@ -151,7 +153,7 @@ void SpaceGame::Update(float dt)
         Player* player = dynamic_cast<Player*>(scene->GetActorByName("player"));
         if (player)
         {
-            /*
+            
             int weaponAmount = static_cast<int>(Player::Weapon::Count);
             int curWeapon = static_cast<int>(player->CurWeapon());
             player->SelectWeapon(static_cast<Player::Weapon>((curWeapon + 1) % weaponAmount));
@@ -160,19 +162,14 @@ void SpaceGame::Update(float dt)
             switch (curWeapon)
             {
             case 0: // ROCKET -> LASER
-                scene->GetActorByName("rocketIc")->SetColor({ 1.0f, 0.0f, 0.0f });
-                scene->GetActorByName("laserIc")->SetColor({ 0.0f, 1.0f, 0.0f });
                 player->fireTime = 5;
                 break;
             case 1: // LASER -> ROCKET
-                scene->GetActorByName("laserIc")->SetColor({ 1.0f, 0.0f, 0.0f });
-                scene->GetActorByName("rocketIc")->SetColor({ 0.0f, 1.0f, 0.0f });
                 player->fireTime = 0.2f;
                 break;
             default:
                 break;
             }
-            */
         }
     }
     scene->Update(swaws::GetEngine().GetTime().GetDeltaTime());
@@ -231,40 +228,15 @@ void SpaceGame::OnNotify(const swaws::Event& event)
 
 void SpaceGame::SpawnEnemy()
 {   
-    auto player = scene->GetActorByName<Player>("player")->owner;
-    if (player)
+    auto playerActor = scene->GetActorByName<Player>("player");
+    if (!playerActor) return; // Player does not exist
+    auto player = playerActor->owner;
+    if (player) // Check if the player (component) has an owner
     {
         // Spawn @ Random Position away from Player
         swaws::vec2 position = player->transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
-        swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1};
+        swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 1 };
         auto enemy = swaws::Instantiate("enemy", transform);
         scene->AddActor(std::move(enemy), true);
-        
-        /*
-        auto sr = std::make_unique<swaws::SpriteRenderer>();
-        sr->textureName = "spaceship-sprites/large_blue_02.png";
-
-        auto mr = std::make_unique<swaws::MeshRenderer>();
-        mr->meshName = "spaceship-sprites/large_blue_02.png";
-
-        auto rb = std::make_unique<swaws::RigidBody>();
-        rb->damping = 0.5f; // Set Damping for enemy
-
-        auto collider = std::make_unique<swaws::CircleCollider2D>();
-        collider->radius = 60;
-
-        enemy->speed = (swaws::random::getReal() * 100) + 100;
-        enemy->maxSpeed = (swaws::random::getReal() * 100) + 300;
-        enemy->tag = "enemy";
-        enemy->fireTime = 2;
-        enemy->fireTimer = 5;
-
-        // Add Components
-        enemy->AddComponent(std::move(sr));
-        enemy->AddComponent(std::move(rb));
-        enemy->AddComponent(std::move(collider));
-
-        scene->AddActor(std::move(enemy));
-        */
     }
 }
