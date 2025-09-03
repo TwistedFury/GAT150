@@ -23,13 +23,8 @@ namespace swaws
 			{
 				size = spriteRenderer->texture->GetSize();
 			}
-			else
-			{
-				spriteRenderer->Start();
-				size = spriteRenderer->texture->GetSize();
-			}
 		}
-		m_body = std::make_unique<PhysicsBody>(owner->transform, size, bodyDef, GetEngine().GetPhysics());
+		m_body = std::make_unique<PhysicsBody>(owner->transform, size * scale, bodyDef, GetEngine().GetPhysics());
 	}
 
 	void RigidBody::Update(float dt)
@@ -48,7 +43,7 @@ namespace swaws
 		Object::Read(value);
 
 		JSON_READ(value, size);
-		//JSON_READ(value, scale);
+		JSON_READ(value, scale);
 
 		JSON_READ_NAME(value, "gravityScale", bodyDef.gravityScale);
 		JSON_READ_NAME(value, "linearDamping", bodyDef.linearDamping);

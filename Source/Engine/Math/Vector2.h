@@ -79,6 +79,15 @@ namespace swaws {
 		}
 
 		/// <summary>
+		/// Adds a scalar value to both components of the vector and returns the resulting vector.
+		/// </summary>
+		/// <param name="otherNum">The scalar value to add to each component of the vector.</param>
+		/// <returns>A new Vector2 instance with each component increased by the scalar value.</returns>
+		Vector2 operator+(T otherNum) const {
+			return Vector2(x + otherNum, y + otherNum);
+		}
+
+		/// <summary>
 		/// Divides the components of this Vector2 by the corresponding components of another Vector2.
 		/// </summary>
 		/// <param name="rhs">The Vector2 whose components are used as divisors.</param>
@@ -118,6 +127,15 @@ namespace swaws {
 		/// <returns>A new Vector2 representing the product of this vector and the scalar.</returns>
 		Vector2 operator*= (const T scalar) const {
 			return (*this) * scalar;
+		}
+
+		/// <summary>
+		/// Adds a scalar value to this Vector2 and returns the result.
+		/// </summary>
+		/// <param name="scalar">The scalar value to add to the vector.</param>
+		/// <returns>A new Vector2 resulting from adding the scalar to this vector.</returns>
+		Vector2 operator+= (const T scalar) const {
+			return (*this) + scalar;
 		}
 
 		/// <summary>

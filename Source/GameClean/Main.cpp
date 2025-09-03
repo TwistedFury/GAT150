@@ -2,10 +2,11 @@
 
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
+#include "Platformer/PlatformerGame.h"
 
 int main(int argc, char* argv[]) {
     // Set Directory
-    swaws::file::SetCurrentDirectory("Assets");
+    swaws::file::SetCurrentDirectory("Assets/Platformer");
     swaws::Logger::Info("Current Directory {}", swaws::file::GetCurrentDirectory());
 
     // Initialize Engine Systems
@@ -13,11 +14,8 @@ int main(int argc, char* argv[]) {
 
     // Initialize Game
     bool quit = false;
-    std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
+    std::unique_ptr<swaws::Game> game = std::make_unique<PlatformerGame>();
     if (!game->Initialize()) quit = true;
-
-    // Load Background
-    swaws::Texture background = *swaws::Resources().Get<swaws::Texture>("new_background.png", swaws::GetEngine().GetRenderer());
 
     SDL_Event e;
     
@@ -35,13 +33,6 @@ int main(int argc, char* argv[]) {
 
         swaws::GetEngine().GetRenderer().SetColor(0.0f, 0.0f, 0.0f);
         swaws::GetEngine().GetRenderer().Clear(); // Clear the renderer
-
-        // Draw Background
-        swaws::vec2 center = {
-            (float)swaws::GetEngine().GetRenderer().GetWindowWidth() / 2,
-            (float)swaws::GetEngine().GetRenderer().GetWindowHeight() / 2
-        };
-        swaws::GetEngine().GetRenderer().DrawTexture(background, center.x, center.y, 0, 1);
 
         // Draw Actors
         game->Draw(swaws::GetEngine().GetRenderer());
