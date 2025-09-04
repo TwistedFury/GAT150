@@ -49,9 +49,6 @@
     <ClCompile Include="Game\Laser.cpp">
       <Filter>Source Files\Space\Game\Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="GamePCH.cpp">
-      <Filter>Source Files\Space\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Platformer\PlatformerGame.cpp">
       <Filter>Source Files\Platformer</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="Platformer\EnemyController.cpp">
       <Filter>Source Files\Platformer</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePCH.cpp">
+      <Filter>Source Files\Space</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,9 +81,6 @@
     <ClInclude Include="Game\Laser.h">
       <Filter>Source Files\Space\Game\Projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="GamePCH.h">
-      <Filter>Source Files\Space\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Platformer\PlatformerGame.h">
       <Filter>Source Files\Platformer</Filter>
     </ClInclude>
@@ -92,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="Platformer\EnemyController.h">
       <Filter>Source Files\Platformer</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePCH.h">
+      <Filter>Source Files\Space</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +102,9 @@
       <Filter>Assets\Platformer</Filter>
     </None>
     <None Include="..\..\Build\Assets\Platformer\Scenes\prototypes.json">
+      <Filter>Assets\Platformer</Filter>
+    </None>
+    <None Include="..\..\Build\Assets\Platformer\Animations\bat_idle.json">
       <Filter>Assets\Platformer</Filter>
     </None>
   </ItemGroup>

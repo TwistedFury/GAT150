@@ -9,19 +9,6 @@ namespace swaws
 {
 	void Scene::Read(const json::value_t& value)
 	{
-		// Read Actors
-		if (JSON_HAS(value, actors))
-		{
-			for (auto& actorVal : JSON_GET(value, actors).GetArray())
-			{
-				auto actor = Factory::Instance().Create<Actor>("Actor");
-				actor->Read(actorVal);
-
-				AddActor(std::move(actor), false);
-			}
-		}
-		else Logger::Error("Document does not contain \"actors\"");
-
 		// Read Prototypes
 		if (JSON_HAS(value, prototypes))
 		{
@@ -34,6 +21,19 @@ namespace swaws
 				Factory::Instance().RegisterPrototype<Actor>(name, std::move(actor));
 			}
 		}
+
+		// Read Actors
+		if (JSON_HAS(value, actors))
+		{
+			for (auto& actorVal : JSON_GET(value, actors).GetArray())
+			{
+				auto actor = Factory::Instance().Create<Actor>("Actor");
+				actor->Read(actorVal);
+
+				AddActor(std::move(actor), false);
+			}
+		}
+		else Logger::Error("Document does not contain \"actors\"");
 	}
 
 	static bool LineCircleCollision(const swaws::vec2& lineStart, const swaws::vec2& lineEnd, const swaws::vec2& circleCenter, float circleRadius) {

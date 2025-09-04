@@ -16,9 +16,11 @@
 #include "Renderer/ParticleSystem.h"
 #include "Renderer/Text.h"
 #include "Renderer/Texture.h"
+#include "Renderer/TextureAnimation.h"
 
 // Components
-#include "Components/SpriteRenderer.h"
+#include "Components/Animator.h"
+#include "Components/CircleCollider2D.h"
 #include "Components/MeshRenderer.h"
 #include "Components/RigidBody.h"
-#include "Components/CircleCollider2D.h"
+#include "Components/SpriteRenderer.h"

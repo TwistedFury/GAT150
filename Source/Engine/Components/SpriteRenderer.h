@@ -7,7 +7,7 @@ namespace swaws
 	{
 	public:
 		std::string textureName;
-		
+		rect textureRect;
 		res_t<Texture> texture;
 		bool flipH{ false };
 

@@ -1,3 +1,4 @@
+#include "../GamePCH.h"
 #include "PlatformerGame.h"
 
 bool PlatformerGame::Initialize()
@@ -33,6 +34,7 @@ void PlatformerGame::Update(float dt)
     case PlatformerGame::GameState::StartRound:
         // Spawn Player
         SpawnPlayer();
+        SpawnEnemy();
         m_gameState = GameState::Game;
         break;
     case PlatformerGame::GameState::Game:
@@ -70,7 +72,8 @@ void PlatformerGame::OnNotify(const swaws::Event& event)
 
 void PlatformerGame::SpawnEnemy()
 {
-
+    auto enemy = swaws::Instantiate("bat");
+    scene->AddActor(std::move(enemy), true);
 }
 
 void PlatformerGame::SpawnPlayer()

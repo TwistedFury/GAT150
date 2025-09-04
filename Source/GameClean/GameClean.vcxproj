@@ -222,6 +222,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Build\Assets\Platformer\Animations\bat_idle.json" />
     <None Include="..\..\Build\Assets\Platformer\Scenes\level.json" />
     <None Include="..\..\Build\Assets\Platformer\Scenes\prototypes.json" />
     <None Include="..\..\Build\Assets\scene.json" />
