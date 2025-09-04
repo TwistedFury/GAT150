@@ -26,6 +26,12 @@ void PlayerController::Update(float dt)
 	{
 		rigidBody->ApplyForce(swaws::vec2{ 0, -1 } * 100000);
 	}
+
+	auto spriteRenderer = owner->GetComponent<swaws::SpriteRenderer>();
+	if (swaws::math::fabs(rigidBody->velocity.x) > 0.1f)
+	{
+		if (spriteRenderer) spriteRenderer->flipH = (rigidBody->velocity.x < 0);
+	}
 }
 
 void PlayerController::Start()

@@ -1,0 +1,26 @@
+#pragma once
+#include "RendererComponent.h"
+
+namespace swaws 
+{
+	class TilemapRenderer : public RendererComponent 
+	{
+	public:
+		TilemapRenderer() = default;
+		TilemapRenderer(const TilemapRenderer& other);
+
+		CLASS_PROTOTYPE(TilemapRenderer)
+
+		void Start() override;
+		void Update(float dt) override;
+		void Draw(Renderer& renderer) override;
+
+		void Read(const json::value_t& value) override;
+
+	private:
+		std::string tilemapName;
+		res_t<class Tilemap> tilemap;
+
+		std::vector<std::unique_ptr<PhysicsBody>> physicsBodies;
+	};
+}

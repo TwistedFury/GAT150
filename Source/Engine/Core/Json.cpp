@@ -123,4 +123,59 @@ namespace swaws::json
 
         return true;
     }
+
+    bool Read(const value_t& value, const std::string& name, std::vector<int>& data, bool required)
+    {
+        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray()) {
+            if (required) Logger::Error("Could not read Json value (std::vector<int>): {}.", name);
+            return false;
+        }
+        auto& array = value[name.c_str()];
+        data.reserve(data.size() + array.Size());
+        for (rapidjson::SizeType i = 0; i < array.Size(); i++) {
+            const auto& v = array[i];
+            if (v.IsInt()) {
+                data.push_back(v.GetInt());
+            } else if (v.IsUint()) {
+                unsigned ui = v.GetUint();
+                if (ui <= static_cast<unsigned>(std::numeric_limits<int>::max())) {
+                    data.push_back(static_cast<int>(ui));
+                } else {
+                    Logger::Error("Value out of int range in array {}[{}]", name, i);
+                    return false;
+                }
+            } else {
+                Logger::Error("Could not read Json value (int array element type) {}[{}]", name, i);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool Read(const value_t& value, const std::string& name, std::vector<uint32_t>& data, bool required)
+    {
+        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray()) {
+            if (required) Logger::Error("Could not read Json value (std::vector<uint32_t>): {}.", name);
+            return false;
+        }
+        auto& array = value[name.c_str()];
+        data.reserve(data.size() + array.Size());
+        for (rapidjson::SizeType i = 0; i < array.Size(); i++) {
+            const auto& v = array[i];
+            if (!(v.IsUint() || v.IsUint64() || v.IsInt() || v.IsInt64())) {
+                Logger::Error("Non-integer numeric in {}[{}]", name, i);
+                return false;
+            }
+            uint64_t raw = v.IsUint64() ? v.GetUint64() :
+                           v.IsInt64()  ? static_cast<uint64_t>(v.GetInt64()) :
+                           v.IsUint()   ? v.GetUint() :
+                                          static_cast<uint64_t>(v.GetInt());
+            if (raw > std::numeric_limits<uint32_t>::max()) {
+                Logger::Error("Value out of uint32 range in {}[{}]", name, i);
+                return false;
+            }
+            data.push_back(static_cast<uint32_t>(raw));
+        }
+        return true;
+    }
 }
