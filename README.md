@@ -39,14 +39,14 @@ It demonstrates key game programming concepts such as rendering, input handling,
 
 ## 🖼️ Screenshots
 
-![Gameplay Screenshot](<img width="1997" height="1598" alt="Screenshot 2025-09-04 221932" src="https://github.com/user-attachments/assets/dff36ab8-1439-4801-aa4e-65f8d1112e3d" />)  
+<img width="1997" height="1598" alt="Screenshot 2025-09-04 221932" src="https://github.com/user-attachments/assets/f8b04b54-14bb-4012-ba1c-486d2d1d3e25" />
 *Player (green block) navigating floating platforms with physics-based jumping and movement.*
 
 ---
 
 ## 🎥 Gameplay Video
 
-<video src="Screen%20Recording%202025-09-04%20222751.mp4" controls width="720"></video>  
+https://github.com/user-attachments/assets/7715eb8d-2ab5-41bc-ab6e-1ae7fc988716
 
 *(If GitHub does not preview the video in-browser, it can still be downloaded and viewed locally.)*
 
