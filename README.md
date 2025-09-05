@@ -39,7 +39,7 @@ It demonstrates key game programming concepts such as rendering, input handling,
 
 ## 🖼️ Screenshots
 
-![Gameplay Screenshot](image_2025-09-04_222050652.png)  
+![Gameplay Screenshot](<img width="1997" height="1598" alt="Screenshot 2025-09-04 221932" src="https://github.com/user-attachments/assets/dff36ab8-1439-4801-aa4e-65f8d1112e3d" />)  
 *Player (green block) navigating floating platforms with physics-based jumping and movement.*
 
 ---
