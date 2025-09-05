@@ -21,29 +21,12 @@
       "transform": {
         "position": [ 0, 0 ],
         "rotation": 0,
-        "scale": 1
+        "scale": 3
       },
       "components": [
         {
           "type": "TilemapRenderer",
-          "tilemapName": "tilemaps/tilemap.json"
-        }
-      ]
-    },
-    {
-      "persistent": true,
-      "transform": {
-        "position": [
-          460,
-          640
-        ],
-        "rotation": 0,
-        "scale": 0.2
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "textures/tree01.png"
+          "tilemapName": "tilemaps/new_tilemap.json"
         }
       ]
     },
@@ -67,30 +50,6 @@
           "type": "RigidBody",
           "isDynamic": false,
           "scale": [ 0.8, 0.8 ]
-        }
-      ]
-    },
-    {
-      "tag": "crate",
-      "persistent": true,
-      "transform": {
-        "position": [
-          640,
-          700
-        ],
-        "rotation": 0,
-        "scale": 1
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "textures/crate02.png"
-        },
-        {
-          "type": "RigidBody",
-          "restitution": 0.5,
-          "isDynamic": true,
-          "gravityScale": 1
         }
       ]
     }

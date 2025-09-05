@@ -7,6 +7,14 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "tilemap.tmx": {
+            "scale": 2.1097916666666663,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 234.38333168756793,
+                "y": 202.62664165103192
+            }
+        },
         "tilemap.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -14,15 +22,19 @@
     },
     "last.exportedFilePath": "C:/Neumont/Summer 2025/GAT150/GAT150/Build/Assets/Platformer/Tilemaps",
     "last.imagePath": "C:/Neumont/Summer 2025/GAT150/GAT150/Build/Assets/Platformer/Textures",
+    "map.height": 22,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
+    "map.width": 27,
     "openFiles": [
+        "tilemap.tmx"
     ],
     "project": "untitled.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "tilemap.tmx",
         "tilemap.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
